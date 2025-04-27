@@ -3,6 +3,7 @@ import { MigrationInterface, QueryRunner } from "typeorm";
 export class InitialMigration1745743481664 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
+      await queryRunner.query(`SET search_path TO public;`);
       await queryRunner.query(`
         CREATE TABLE IF NOT EXISTS "public.user_role" (
           "id" SERIAL PRIMARY KEY,

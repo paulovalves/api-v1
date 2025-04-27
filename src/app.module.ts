@@ -3,10 +3,10 @@ import { AppController } from '@/app.controller';
 import { AppService } from '@/app.service';
 import { DomainsModule } from '@/domains/domains.module';
 import { DatabaseModule } from '@/database/database.module';
-import { DatabaseConfigModule } from '@/config/database/database.config.module';
+import { TypeormDatabaseModule } from '@/database/typeorm/typeorm.database.module';
 
 @Module({
-  imports: [DomainsModule, DatabaseModule, DatabaseConfigModule],
+  imports: [DomainsModule, DatabaseModule, TypeormDatabaseModule],
   controllers: [AppController],
   providers: [AppService],
 })

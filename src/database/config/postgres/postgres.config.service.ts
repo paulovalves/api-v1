@@ -8,6 +8,7 @@ export class PostgresConfigService implements PostgresConfig {
   constructor(private configService: NestConfigService) {}
 
   getHost(): string {
+
     return this.configService.get<string>('POSTGRES_HOST')!;
   }
 
@@ -34,4 +35,6 @@ export class PostgresConfigService implements PostgresConfig {
   isSync(): boolean {
     return this.configService.get<string>('POSTGRES_SYNC') === 'true';
   }
+
+
 }

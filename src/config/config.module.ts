@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { DatabaseConfigModule } from '@/config/database/database.config.module';
 import { ConfigModule as NestConfigModule } from '@nestjs/config';
+import { AppConfig } from '@/config/app/app.config';
 
 @Module({
   imports: [
@@ -8,7 +8,8 @@ import { ConfigModule as NestConfigModule } from '@nestjs/config';
       isGlobal: true,
       envFilePath: ['.env'],
     }),
-    DatabaseConfigModule,
   ],
+  providers: [AppConfig],
+  exports: [AppConfig]
 })
 export class ConfigModule {}
