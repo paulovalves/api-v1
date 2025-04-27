@@ -1,17 +1,18 @@
 import { DataSourceOptions } from 'typeorm';
 import { Injectable } from '@nestjs/common';
+import { PostgresConfigService } from '@/config/database/postgres/postgres.config.service';
 
 @Injectable()
 export class TypeormPostgresConfig {
-  constructor() {}
+  constructor(private  postgresConfigService: PostgresConfigService) {}
   get(): DataSourceOptions {
     return {
       type: 'postgres',
-      host: process.env.POSTGRES_HOST,
-      port: Number(process.env.POSTGRES_PORT),
-      username: process.env.POSTGRES_USER,
-      password: process.env.POSTGRES_PASSWORD,
-      synchronize: false,
+      host: this.postgresConfigService.getHost(),
+      port: this.postgresConfigService.getPort(),
+      username: this.postgresConfigService.getUsername(),
+      password: this.postgresConfigService.getPassword(),
+      synchronize: this.postgresConfigService.isSync(),
       entities: [__dirname + '/../../models/**/*.entity{.ts,.js}'],
       migrations: [__dirname + '/../../migrations/**/*{.ts,.js}'],
       migrationsTableName: 'migrations',
