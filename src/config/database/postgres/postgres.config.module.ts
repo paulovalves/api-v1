@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
+import { PostgresConfigService } from './postgres.config.service';
 
 @Module({
-  providers: [],
+  providers: [PostgresConfigService],
+  exports: [PostgresConfigService],
 })
 export class PostgresConfigModule {}

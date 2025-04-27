@@ -4,4 +4,4 @@ import { UserModule } from './user/user.module';
 @Module({
   imports: [UserModule],
 })
-export class ModelsModule {}
+export class DomainsModule {}

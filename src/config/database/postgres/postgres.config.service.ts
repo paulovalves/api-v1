@@ -1,35 +1,37 @@
+// src/config/database/postgres/postgres.config.service.ts
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { ConfigService as NestConfigService } from '@nestjs/config';
+import { PostgresConfig } from '@/domains/interfaces/postgres-config.interface';
 
 @Injectable()
-export class PostgresConfigService {
-  constructor(
-    private configService: ConfigService,
-    // @Inject('ENV_VARIABLES') private env: { [key: string]: string | undefined },
-  ) {}
+export class PostgresConfigService implements PostgresConfig {
+  constructor(private configService: NestConfigService) {}
 
-  private getValue(key: string, throwOnMissing = true): string {
-    const value = this.configService.get<string>(key);
-    if (!value && throwOnMissing) {
-      throw new Error(`Erro de configuraçao - env.${key} nao existe`);
-    } else {
-      return <string>value;
-    }
+  getHost(): string {
+    return this.configService.get<string>('POSTGRES_HOST')!;
   }
 
-  public ensureValues(keys: string[]) {
-    keys.forEach((key: string) => {
-      this.getValue(key, true);
-    });
-    return this;
+  getPort(): number {
+    return Number(this.configService.get<string>('POSTGRES_PORT'));
   }
 
-  public getPort() {
-    return this.getValue('PORT', true);
+  getUsername(): string {
+    return this.configService.get<string>('POSTGRES_USER')!;
   }
 
-  public isProduction() {
-    const mode = this.getValue('MODE', false);
-    return mode !== 'DEV';
+  getPassword(): string {
+    return this.configService.get<string>('POSTGRES_PASSWORD')!;
+  }
+
+  getDatabase(): string {
+    return this.configService.get<string>('POSTGRES_DATABASE')!;
+  }
+
+  isLogging(): boolean {
+    return this.configService.get<string>('POSTGRES_LOGGING') === 'true';
+  }
+
+  isSync(): boolean {
+    return this.configService.get<string>('POSTGRES_SYNC') === 'true';
   }
 }
