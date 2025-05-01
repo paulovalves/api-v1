@@ -9,31 +9,31 @@ export class PostgresConfigService implements PostgresConfig {
 
   getHost(): string {
 
-    return this.configService.get<string>('POSTGRES_HOST')!;
+    return this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_HOST')!;
   }
 
   getPort(): number {
-    return Number(this.configService.get<string>('POSTGRES_PORT'));
+    return Number(this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_PORT'));
   }
 
   getUsername(): string {
-    return this.configService.get<string>('POSTGRES_USER')!;
+    return this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_USER')!;
   }
 
   getPassword(): string {
-    return this.configService.get<string>('POSTGRES_PASSWORD')!;
+    return this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_PASSWORD')!;
   }
 
   getDatabase(): string {
-    return this.configService.get<string>('POSTGRES_DATABASE')!;
+    return this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_DATABASE')!;
   }
 
   isLogging(): boolean {
-    return this.configService.get<string>('POSTGRES_LOGGING') === 'true';
+    return this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_LOGGING') === 'true';
   }
 
   isSync(): boolean {
-    return this.configService.get<string>('POSTGRES_SYNC') === 'true';
+    return this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_SYNC') === 'true';
   }
 
 

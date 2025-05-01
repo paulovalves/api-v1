@@ -10,7 +10,7 @@ import { UserInputDto } from '../dto/user.input.dto';
 import { UserOutputDto } from '../dto/user.output.dto';
 
 @Entity()
-export class User {
+export class UserEntity {
   constructor() {}
 
   @PrimaryGeneratedColumn()
@@ -25,31 +25,14 @@ export class User {
   @Column()
   password: string;
 
-  @CreateDateColumn()
-  createdAt: Date;
+  @Column({ name: 'role_id' })
+  roleId: number;
 
-  @UpdateDateColumn()
-  updatedAt: Date;
-
-  @Column()
-  role: UserRole;
-
-  static fromInput(dto: UserInputDto): User {
-    const user = new User();
-    user.name = dto.name;
-    user.email = dto.email;
-    user.password = dto.password;
-    user.createdAt = dto.createdAt;
-    user.updatedAt = dto.updatedAt;
-    return user;
-  }
-
-  static fromOutput(dto: UserOutputDto): User {
-    const user = new User();
-    user.name = dto.name;
-    user.email = dto.email;
-    user.createdAt = dto.createdAt;
-    user.updatedAt = dto.updatedAt;
-    return user;
+  toUser(dto: any) {
+    this.id = dto.id;
+    this.name = dto.name;
+    this.email = dto.email;
+    this.password = dto.password;
+    this.roleId = dto.role;
   }
 }

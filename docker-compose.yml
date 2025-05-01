@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: postgres14
+    environment:
+      POSTGRES_DB: ${POSTGRES_LOCALHOST_DATABASE}
+      POSTGRES_USER: ${POSTGRES_LOCALHOST_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_LOCALHOST_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: nest-app
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: ${POSTGRES_LOCALHOST_USER}
+      DB_PASSWORD: ${POSTGRES_LOCALHOST_PASSWORD}
+      DB_NAME: ${POSTGRES_LOCALHOST_DATABASE}
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    command: npm run start:dev
+
+volumes:
+  pgdata:

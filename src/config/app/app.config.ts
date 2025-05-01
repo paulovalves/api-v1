@@ -3,40 +3,41 @@ import { AppConfigInterface } from '@/config/app/app-config.interface';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class AppConfig implements AppConfigInterface {
-  private readonly appName: string;
-  private readonly appVersion: string;
-  private readonly appPort: number;
-  private readonly appEnv: string;
-  private readonly rootPath: string;
-  private readonly migrationsPath: string;
+export class AppConfig extends ConfigService implements AppConfigInterface {
 
-  constructor(private readonly configService: ConfigService) {
-    this.appName = process.env.APP_NAME || 'MyApp';
-    this.appVersion = process.env.APP_VERSION || '1.0.0';
+  constructor() {
+    super();
   }
 
   getAppName(): string {
-    return this.appName;
+    return this.get<string>('APP_NAME') || '';
   }
 
   getAppVersion(): string {
-    return this.appVersion;
+    return this.getOrThrow<string>('APP_VERSION');
   }
 
   getAppPort(): number {
-    return this.appPort;
+    return this.getOrThrow<number>('APP_LOCALHOST_PORT');
   }
 
   getAppEnv(): string {
-    return this.appEnv;
+    return this.getOrThrow<string>('TEST_NODE_ENV')!;
   }
 
   getRootPath(): string {
-    return this.configService.get<string>('ROOT_PATH')!;
+    return this.getOrThrow<string>('ROOT_LOCALHOST_PATH')!;
   }
 
   getMigrationsPath(): string {
-    return this.configService.get<string>('MIGRATIONS_PATH')!;
+    return this.getOrThrow<string>('MIGRATIONS_LOCALHOST_PATH')!;
+  }
+
+  getClassPath() {
+    return this.getOrThrow<string>('CLASSPATH_LOCALHOST_PATH')!;
+  }
+
+  getChangeLogFilePath() {
+    return this.getOrThrow<string>('CHANGELOG_LOCALHOST_PATH')!;
   }
 }

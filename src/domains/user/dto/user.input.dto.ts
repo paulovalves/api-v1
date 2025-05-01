@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UserRole } from '../entities/user-role';
-import { User } from '../entities/user.entity';
+import { UserEntity } from '../entities/user.entity';
 
 export class UserInputDto {
   constructor() {}
@@ -26,7 +26,7 @@ export class UserInputDto {
   @ApiProperty()
   role: UserRole;
 
-  static toUserInputDto(user: User): UserInputDto {
+  static toUserInputDto(user: UserEntity): UserInputDto {
     const dto = new UserInputDto();
     dto.name = user.name;
     dto.email = user.email;

@@ -1,9 +1,23 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UserRole } from '../entities/user-role';
-import { User } from '../entities/user.entity';
+import { UserEntity } from '../entities/user.entity';
 
 export class UserOutputDto {
-  constructor() {}
+  constructor(
+    id: number,
+    name: string,
+    email: string,
+    createdAt: Date,
+    updatedAt: Date,
+    role: UserRole,
+  ) {
+    this.id = id;
+    this.name = name;
+    this.email = email;
+    this.createdAt = createdAt;
+    this.updatedAt = updatedAt;
+    this.role = role;
+  }
 
   @ApiProperty()
   id: number;
@@ -23,12 +37,14 @@ export class UserOutputDto {
   @ApiProperty()
   role: UserRole;
 
-  static toUserOutputDto(user: User): UserOutputDto {
-    const dto = new UserOutputDto();
-    dto.name = user.name;
-    dto.email = user.email;
-    dto.createdAt = user.createdAt;
-    dto.updatedAt = user.updatedAt;
-    return dto;
+  static toUserOutputDto(user: UserEntity): UserOutputDto {
+    return new UserOutputDto(
+      user.id,
+      user.name,
+      user.email,
+      user.createdAt,
+      user.updatedAt,
+      user.role,
+    );
   }
 }
