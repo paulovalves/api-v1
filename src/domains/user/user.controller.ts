@@ -4,6 +4,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { BaseApiController } from '@/domains/common/base-api.controller';
+import { UserFilterEntity } from '@/domains/user/filters/user-filter.entity';
 
 @Controller('user')
 export class UserController extends BaseApiController {
@@ -18,7 +19,7 @@ export class UserController extends BaseApiController {
       res.status(HttpStatus.CREATED).json({ message: 'Usuário criado com sucesso', data: response }).send();
     } catch (error) {
       console.error(error);
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Erro ao criar usuário', data: {} }).send();
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error, data: {} }).send();
     }
   }
 
@@ -33,9 +34,15 @@ export class UserController extends BaseApiController {
     }
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  @Post('find-one')
+  findOne(@Body() filter: UserFilterEntity, @Res() res: Response) {
+    try {
+      const response = this.userService.findOne(filter);
+      res.status(HttpStatus.OK).json({ message: 'Usuário encontrado com sucesso', data: response }).send();
+    } catch (error) {
+      console.error(error);
+      throw new Error('Erro ao encontrar usuário');
+    }
   }
 
   @Patch(':id')

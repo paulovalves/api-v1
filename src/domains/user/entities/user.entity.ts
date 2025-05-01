@@ -1,13 +1,7 @@
-import { UserRoleEntity } from './user-role.entity';
 import {
   Column,
-  CreateDateColumn,
   Entity,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
-import { UserInputDto } from '../dto/user.input.dto';
-import { UserOutputDto } from '../dto/user.output.dto';
 import { BaseEntity } from '@/domains/common/entities/base.entity';
 
 @Entity()
