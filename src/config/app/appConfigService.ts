@@ -1,6 +1,6 @@
 import { AppConfig } from '@/config/app/app.config';
 
-export class AppCOnfigService {
+export class AppConfigService {
   private appConfig: AppConfig;
 
   constructor() {}

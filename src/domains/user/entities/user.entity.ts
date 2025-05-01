@@ -4,7 +4,7 @@ import {
 } from 'typeorm';
 import { BaseEntity } from '@/domains/common/entities/base.entity';
 
-@Entity()
+@Entity('users')
 export class UserEntity extends BaseEntity {
   constructor() {
     super();

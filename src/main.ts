@@ -1,19 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ConsoleLogger } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { AppService } from '@/app.service';
+
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    logger: new ConsoleLogger({
-      prefix: 'api-v1',
-      context: 'NestApplication',
-      timestamp: true,
-      logLevels: ['error', 'warn', 'log', 'debug', 'verbose'],
-      colors: true,
-    })
-  });
+  const app = await NestFactory.create(AppModule);
 
   app.enableCors({
     origin: '*',

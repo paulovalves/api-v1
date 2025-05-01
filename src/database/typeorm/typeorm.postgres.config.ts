@@ -2,6 +2,9 @@ import { DataSourceOptions } from 'typeorm';
 import { Injectable } from '@nestjs/common';
 import { PostgresConfigService } from '@/database/config/postgres/postgres.config.service';
 import { AppConfig } from '@/config/app/app.config';
+import { UserRoleEntity } from '@/domains/user/entities/user-role.entity';
+import { UserEntity } from '@/domains/user/entities/user.entity';
+import { UserStatusEntity } from '@/domains/user/entities/user-status.entity';
 
 @Injectable()
 export class TypeormPostgresConfig {
@@ -26,7 +29,7 @@ export class TypeormPostgresConfig {
       password: this.postgresConfigService.getPassword(),
       synchronize: this.postgresConfigService.isSync(),
       database: this.postgresConfigService.getDatabase(),
-      entities: [entitiesPath],
+      entities: [UserRoleEntity, UserEntity, UserStatusEntity],
       migrations: [migrationsPath],
       migrationsTableName: 'migrations',
       migrationsRun: true,

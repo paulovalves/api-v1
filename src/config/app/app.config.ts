@@ -38,6 +38,10 @@ export class AppConfig extends ConfigService implements AppConfigInterface {
   }
 
   getChangeLogFilePath() {
-    return this.getOrThrow<string>('CHANGELOG_LOCALHOST_PATH')!;
+    return this.getOrThrow<string>('CHANGELOGFILE_LOCALHOST_PATH')!;
+  }
+
+  getChangeLogFolderPath() {
+    return this.getOrThrow<string>('CHANGELOG_FOLDER_LOCALHOST_PATH')!;
   }
 }

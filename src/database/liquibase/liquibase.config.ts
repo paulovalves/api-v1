@@ -10,15 +10,28 @@ export class LiquibaseConfig {
   private static isUpdated = false;
   private static isRollback = false;
 
-  constructor(private postgresConfigService: PostgresConfigService, private appConfig: AppConfig) {}
+  constructor(
+    private postgresConfigService: PostgresConfigService,
+    private appConfig: AppConfig
+  ) {}
 
-  getLiquibaseConfig(): Liquibase {
+  getInstance(): LiquibaseConfig {
+    if (!LiquibaseConfig.instance) {
+      LiquibaseConfig.instance = new LiquibaseConfig(this.postgresConfigService, this.appConfig);
+    }
+    return LiquibaseConfig.instance;
+  }
+
+   getLiquibaseConfig(): Liquibase {
+    const instance = this.getInstance()
+     console.log('LiquibaseConfig instance:', instance);
     return new Liquibase({
-      url: this.postgresConfigService.getHost(),
+      url: this.postgresConfigService.getUrl(),
       username: this.postgresConfigService.getUsername(),
       password: this.postgresConfigService.getPassword(),
       changeLogFile: this.appConfig.getChangeLogFilePath(),
-      classpath: this.appConfig.getClassPath()
+      classpath: this.appConfig.getClassPath(),
+      searchPath: this.appConfig.getChangeLogFolderPath(),
     });
   }
 
@@ -29,7 +42,7 @@ export class LiquibaseConfig {
     LiquibaseConfig.isRunning = true;
     try {
       const liquibase = this.getLiquibaseConfig();
-      await this.getLiquibaseConfig().update({ contexts: this.appConfig.getChangeLogFilePath() });
+      await this.getLiquibaseConfig().update({});
       LiquibaseConfig.isUpdated = true;
     } catch (error) {
       console.error('Error updating database:', error);

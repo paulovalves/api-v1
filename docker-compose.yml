@@ -12,12 +12,28 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-
+  liquibase:
+    build: .
+    container_name: liquibase
+    depends_on:
+      - postgres
+    working_dir: /liquibase
+    volumes:
+      - .:/app
+      - ./src/database/liquibase:/liquibase
+    entrypoint:
+      - /app/wait-for-postgres.sh
+      - postgres
+      - "5432"
+      - liquibase
+      - --defaultsFile=/liquibase/liquibase.properties
+      - update
   app:
     build: .
     container_name: nest-app
     depends_on:
       - postgres
+      - liquibase
     environment:
       DB_HOST: postgres
       DB_PORT: 5432

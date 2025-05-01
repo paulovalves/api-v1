@@ -36,5 +36,8 @@ export class PostgresConfigService implements PostgresConfig {
     return this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_SYNC') === 'true';
   }
 
+  getUrl(): string {
+    return `jdbc:postgresql://${this.getHost()}:${this.getPort()}/${this.getDatabase()}`;
+  }
 
 }
