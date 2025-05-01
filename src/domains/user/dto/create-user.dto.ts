@@ -1,16 +1,17 @@
 import { UserEntity } from '@/domains/user/entities/user.entity';
+import { UserRoleEntity } from '@/domains/user/entities/user-role.entity';
 
 export class CreateUserDto {
   name: string;
   email: string;
   password: string;
-  role: string;
+  role: UserRoleEntity;
 
-  constructor(name: string, email: string, password: string, role: string) {
+  constructor(name: string, email: string, password: string, roleId: number) {
     this.name = name;
     this.email = email;
     this.password = password;
-    this.role = role;
+    this.role = UserRoleEntity.fromId(roleId);
   }
 
   static toCreateDto(user: UserEntity) {
@@ -18,7 +19,7 @@ export class CreateUserDto {
       user.name,
       user.email,
       user.password,
-      user.role,
+      user.roleId,
     );
   }
 }

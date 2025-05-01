@@ -1,20 +1,36 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus } from '@nestjs/common';
+import { Response } from 'express';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { BaseApiController } from '@/domains/common/base-api.controller';
 
 @Controller('user')
-export class UserController {
-  constructor(private readonly userService: UserService) {}
+export class UserController extends BaseApiController {
+  constructor(private readonly userService: UserService) {
+    super();
+  }
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+  create(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
+    try {
+      const response = this.userService.create(createUserDto);
+      res.status(HttpStatus.CREATED).json({ message: 'Usuário criado com sucesso', data: response }).send();
+    } catch (error) {
+      console.error(error);
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Erro ao criar usuário', data: {} }).send();
+    }
   }
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  findAll(@Res() res: Response) {
+    try {
+      const response = this.userService.findAll();
+      res.status(HttpStatus.OK).json({ message: 'Usuários encontrados com sucesso', data: response }).send();
+    } catch (error) {
+      console.error(error);
+      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Erro ao encontrar usuários', data: {} }).send();
+    }
   }
 
   @Get(':id')

@@ -1,9 +1,10 @@
 import { Column, Entity, JoinColumn } from 'typeorm';
-import { UserEntity } from '@/domains/user/entities/user.entity';
+import { BaseEntity } from '@/domains/common/entities/base.entity';
 
 @Entity('user_status')
-export class UserStatusEntity {
+export class UserStatusEntity extends BaseEntity {
   constructor(id: number, id_user: number, description: string, created_at: Date, updated_at: Date, deletedAt: Date, isActive: boolean) {
+    super();
     this.id = id;
     this.id_user = id_user;
     this.description = description;
@@ -11,9 +12,6 @@ export class UserStatusEntity {
     this.deletedAt = deletedAt;
     this.isActive = isActive;
   }
-
-  @Column({ name: 'id', primary: true, generated: true })
-  id: number;
 
   @JoinColumn({ name: 'id_user', referencedColumnName: 'id', foreignKeyConstraintName: 'FK_user_status_user' })
   id_user: number;

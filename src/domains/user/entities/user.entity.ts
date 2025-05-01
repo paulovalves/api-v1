@@ -1,4 +1,4 @@
-import { UserRole } from './user-role';
+import { UserRoleEntity } from './user-role.entity';
 import {
   Column,
   CreateDateColumn,
@@ -8,13 +8,13 @@ import {
 } from 'typeorm';
 import { UserInputDto } from '../dto/user.input.dto';
 import { UserOutputDto } from '../dto/user.output.dto';
+import { BaseEntity } from '@/domains/common/entities/base.entity';
 
 @Entity()
-export class UserEntity {
-  constructor() {}
-
-  @PrimaryGeneratedColumn()
-  id: number;
+export class UserEntity extends BaseEntity {
+  constructor() {
+    super();
+  }
 
   @Column()
   name: string;

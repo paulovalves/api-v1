@@ -15,8 +15,8 @@ export class TypeormPostgresConfig {
       : 'dist/database/migrations/*{.js}';
 
     const entitiesPath = isDev
-      ? 'src/domains/**/entities/*.entity{.ts}'
-      : 'dist/domains/**/entities/*.entity{.js}';
+      ? 'src/domains/**/entities/*.entities{.ts}'
+      : 'dist/domains/**/entities/*.entities{.js}';
 
     return {
       type: 'postgres',

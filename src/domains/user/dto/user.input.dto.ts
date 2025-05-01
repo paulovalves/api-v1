@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { UserRole } from '../entities/user-role';
+import { UserRoleEntity } from '../entities/user-role.entity';
 import { UserEntity } from '../entities/user.entity';
 
 export class UserInputDto {
@@ -18,21 +18,13 @@ export class UserInputDto {
   password: string;
 
   @ApiProperty()
-  createdAt: Date;
-
-  @ApiProperty()
-  updatedAt: Date;
-
-  @ApiProperty()
-  role: UserRole;
+  role: UserRoleEntity;
 
   static toUserInputDto(user: UserEntity): UserInputDto {
     const dto = new UserInputDto();
     dto.name = user.name;
     dto.email = user.email;
     dto.password = user.password;
-    dto.createdAt = user.createdAt;
-    dto.updatedAt = user.updatedAt;
     return dto;
   }
 }

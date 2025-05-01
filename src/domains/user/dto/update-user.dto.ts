@@ -1,6 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateUserDto } from './create-user.dto';
 import { UserEntity } from '@/domains/user/entities/user.entity';
+import { UserRoleEntity } from '@/domains/user/entities/user-role.entity';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   private id: number;
@@ -9,7 +10,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
     name?: string,
     email?: string,
     password?: string,
-    role?: string,
+    role?: UserRoleEntity,
   ) {
     super();
     this.id = id;
@@ -25,7 +26,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
       user.name,
       user.email,
       user.password,
-      user.role,
+      UserRoleEntity.fromId(user.roleId)
     );
   }
 }
