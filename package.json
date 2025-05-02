@@ -28,6 +28,7 @@
     "@nestjs/typeorm": "^11.0.0",
     "dotenv": "^16.5.0",
     "handlebars": "^4.7.8",
+    "hbs": "^4.2.0",
     "liquibase": "^4.28.1",
     "pg": "^8.15.6",
     "reflect-metadata": "^0.2.2",

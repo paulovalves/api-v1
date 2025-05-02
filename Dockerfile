@@ -32,10 +32,15 @@ RUN apt-get update && \
     rm liquibase.zip
 
 
-RUN npm run build
 COPY ./public ./public
 COPY ./views ./views
+RUN npm run build
+
+COPY ./views ./dist/views
+COPY ./public ./dist/public
+
 COPY ./liquibase-run.sh /app/liquibase-run.sh
 RUN chmod +x /app/liquibase-run.sh
+
 EXPOSE 8080
 CMD ["/app/liquibase-run.sh"]
