@@ -3,27 +3,21 @@ version: '3.8'
 services:
   postgres:
     image: postgres:14
-    container_name: postgres
-    hostname: postgres
+    container_name: postgres14
     environment:
       POSTGRES_DB: ${POSTGRES_LOCALHOST_DATABASE}
       POSTGRES_USER: ${POSTGRES_LOCALHOST_USER}
       POSTGRES_PASSWORD: ${POSTGRES_LOCALHOST_PASSWORD}
-    networks:
-      - appnet
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-
   liquibase:
     build: .
     container_name: liquibase
     depends_on:
       - postgres
     working_dir: /liquibase
-    networks:
-      - appnet
     volumes:
       - .:/app
       - ./src/database/liquibase:/liquibase
@@ -34,11 +28,9 @@ services:
       - liquibase
       - --defaultsFile=/liquibase/liquibase.properties
       - update
-
-  api-app:
+  app:
     build: .
-    container_name: api-app
-    hostname: api.app.local
+    container_name: nest-app
     depends_on:
       - postgres
       - liquibase
@@ -49,32 +41,11 @@ services:
       DB_USER: ${POSTGRES_LOCALHOST_USER}
       DB_PASSWORD: ${POSTGRES_LOCALHOST_PASSWORD}
       DB_NAME: ${POSTGRES_LOCALHOST_DATABASE}
-    networks:
-      appnet:
-        aliases:
-          - api.app.local
     volumes:
       - .:/app
     ports:
       - "8080:8080"
     command: npm run start:dev
 
-  nginx:
-    image: nginx:latest
-    container_name: nginx
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
-    depends_on:
-      - api-app
-    networks:
-      - appnet
-
 volumes:
   pgdata:
-
-networks:
-  appnet:
-    driver: bridge
-

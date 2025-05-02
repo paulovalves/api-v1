@@ -1,11 +1,13 @@
 # se for para resetar o banco de dados
 #docker-compose down -v
 
+docker image prune -f &&
+
 # se for para manter os dados
 docker-compose down &&
 
 # montar todas as imagens
-docker-compose build --no-cache &&
+docker-compose build &&
 
 # subir apenas o banco de dados
 #docker-compose up -d db
