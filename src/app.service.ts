@@ -9,8 +9,8 @@ export class AppService {
     private openapiService: OpenapiService,
   ) {}
 
-  getHello(): string {
-    return 'Hello World!';
+  getHome() {
+    return 'index';
   }
 
   getModules() {

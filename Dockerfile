@@ -33,9 +33,9 @@ RUN apt-get update && \
 
 
 RUN npm run build
-#COPY ./liquibase.properties /app/src/database/liquibase/.liquibase.properties
+COPY ./public ./public
+COPY ./views ./views
 COPY ./liquibase-run.sh /app/liquibase-run.sh
 RUN chmod +x /app/liquibase-run.sh
-# Expose the port the app runs on
 EXPOSE 8080
 CMD ["/app/liquibase-run.sh"]

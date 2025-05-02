@@ -39,7 +39,7 @@ export class UserController extends BaseApiController {
    *
    * @returns {Promise<Response>} - A promise that resolves when the user is created.
    */
-  @Post()
+  @Post('create')
   async create(
     @Body() createUserDto: CreateUserDto,
     @Res() res: Response,
@@ -63,7 +63,7 @@ export class UserController extends BaseApiController {
    *
    * @returns {Promise<Response>} - A promise that resolves with the list of users.
    */
-  @Get('find')
+  @Get('users')
   async findAll(@Res() res: Response): Promise<Response> {
     try {
       const response = await this.userService.findAll();
@@ -85,7 +85,7 @@ export class UserController extends BaseApiController {
    *
    * @returns {Promise<Response>} - A promise that resolves with the user data.
    */
-  @Post('find')
+  @Post('user')
   async findOne(
     @Body() filter: UserFilterEntity,
     @Res() res: Response,
