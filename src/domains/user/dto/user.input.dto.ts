@@ -11,7 +11,7 @@ export class UserInputDto {
     getter: (value: number | null) => value,
     setter: (value: number | null) => value,
   })
-  private id: number;
+  id: number;
 
   @ApiProperty({ name: 'name', type: 'string', nullable: false })
   name: string;
@@ -49,7 +49,7 @@ export class UserInputDto {
     dto.name = user.name;
     dto.email = user.email;
     dto.password = user.password;
-    dto.role = user.role;
+    dto.role = UserRoleEntity.fromId(Number(user.role.id));
     return dto;
   }
 }

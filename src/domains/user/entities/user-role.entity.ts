@@ -27,7 +27,11 @@ export class UserRoleEntity extends BaseEntity {
     return dto;
   }
 
-  static fromId(id: number): UserRoleEntity {
+  static fromId(param: number | string): UserRoleEntity {
+    const id = typeof param === 'string' ? parseInt(param) : param;
+    if (!id) {
+      throw new Error('Invalid user role ID: ' + id);
+    }
     switch (id) {
       case 1:
         return new UserRoleEntity(
@@ -48,7 +52,7 @@ export class UserRoleEntity extends BaseEntity {
           'Guest user role with minimal access',
         );
       default:
-        throw new Error('Invalid user role ID');
+        throw new Error('Invalid user role ID: ' + id);
     }
   }
 
