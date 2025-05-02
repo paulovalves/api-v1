@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: 006-alter-table-user
+      author: Paulo Alves (paulovalves@outlook.com)
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: status_id
+                  type: BIGINT
+        - addForeignKeyConstraint:
+            baseTableName: users
+            baseColumnNames: status_id
+            referencedTableName: user_status
+            referencedColumnNames: id
+            constraintName: fk_user_status

@@ -5,3 +5,9 @@ databaseChangeLog:
       file: 002-create-table-users.yaml
   - include:
       file: 003-create-table-user-status.yaml
+  - include:
+      file: 004-alter-table-user-role.yaml
+  - include:
+      file: 005-insert-into-user-role.yaml
+  - include:
+      file: 006-alter-table-user.yaml

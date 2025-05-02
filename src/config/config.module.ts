@@ -10,6 +10,6 @@ import { AppConfig } from '@/config/app/app.config';
     }),
   ],
   providers: [AppConfig],
-  exports: [AppConfig]
+  exports: [AppConfig],
 })
 export class ConfigModule {}

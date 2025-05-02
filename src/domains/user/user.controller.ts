@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Res,
+  HttpStatus,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -6,52 +16,100 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { BaseApiController } from '@/domains/common/base-api.controller';
 import { UserFilterEntity } from '@/domains/user/filters/user-filter.entity';
 
+/**
+ * Controller for managing users.
+ * Handles user creation, retrieval, update, and deletion.
+ * @Controller('user')
+ * @class UserController
+ * @extends BaseApiController
+ * @constructor
+ * @param {UserService} userService - The user service instance.
+ *
+ */
 @Controller('user')
 export class UserController extends BaseApiController {
   constructor(private readonly userService: UserService) {
     super();
   }
 
+  /**
+   * Creates a new user.
+   * @param {CreateUserDto} createUserDto - The user data to create.
+   * @param {Response} res - The response object.
+   *
+   * @returns {Promise<Response>} - A promise that resolves when the user is created.
+   */
   @Post()
-  create(@Body() createUserDto: CreateUserDto, @Res() res: Response) {
+  async create(
+    @Body() createUserDto: CreateUserDto,
+    @Res() res: Response,
+  ): Promise<Response> {
     try {
-      const response = this.userService.create(createUserDto);
-      res.status(HttpStatus.CREATED).json({ message: 'Usuário criado com sucesso', data: response }).send();
+      const response = await this.userService.create(createUserDto);
+      return res
+        .status(HttpStatus.CREATED)
+        .json({ message: 'Usuário criado com sucesso', data: response });
     } catch (error) {
       console.error(error);
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: error, data: {} }).send();
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: error, data: {} });
     }
   }
 
-  @Get()
-  findAll(@Res() res: Response) {
+  /**
+   * Retrieves all users.
+   * @param {Response} res - The response object.
+   *
+   * @returns {Promise<Response>} - A promise that resolves with the list of users.
+   */
+  @Get('find')
+  async findAll(@Res() res: Response): Promise<Response> {
     try {
-      const response = this.userService.findAll();
-      res.status(HttpStatus.OK).json({ message: 'Usuários encontrados com sucesso', data: response }).send();
+      const response = await this.userService.findAll();
+      return res
+        .status(HttpStatus.OK)
+        .json({ message: 'Usuários encontrados com sucesso', data: response });
     } catch (error) {
       console.error(error);
-      res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message: 'Erro ao encontrar usuários', data: {} }).send();
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: 'Erro ao encontrar usuários', data: {} });
     }
   }
 
-  @Post('find-one')
-  findOne(@Body() filter: UserFilterEntity, @Res() res: Response) {
+  /**
+   * Retrieves a user by ID.
+   * @param {UserFilterEntity} filter - The ID of the user to retrieve.
+   * @param {Response} res - The response object.
+   *
+   * @returns {Promise<Response>} - A promise that resolves with the user data.
+   */
+  @Post('find')
+  async findOne(
+    @Body() filter: UserFilterEntity,
+    @Res() res: Response,
+  ): Promise<Response> {
     try {
-      const response = this.userService.findOne(filter);
-      res.status(HttpStatus.OK).json({ message: 'Usuário encontrado com sucesso', data: response }).send();
+      const response = await this.userService.findOne(filter);
+      return res
+        .status(HttpStatus.OK)
+        .json({ message: 'Usuário encontrado com sucesso', data: response });
     } catch (error) {
       console.error(error);
-      throw new Error('Erro ao encontrar usuário');
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: 'Erro ao encontrar usuário', data: {} });
     }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return await this.userService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.userService.remove(+id);
   }
 }

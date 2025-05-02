@@ -3,7 +3,6 @@ import { PostgresConfigService } from '@/database/config/postgres/postgres.confi
 import { AppConfig } from '@/config/app/app.config';
 
 export class LiquibaseConfig {
-
   private static instance: LiquibaseConfig;
   private static isInitialized = false;
   private static isRunning = false;
@@ -12,19 +11,22 @@ export class LiquibaseConfig {
 
   constructor(
     private postgresConfigService: PostgresConfigService,
-    private appConfig: AppConfig
+    private appConfig: AppConfig,
   ) {}
 
   getInstance(): LiquibaseConfig {
     if (!LiquibaseConfig.instance) {
-      LiquibaseConfig.instance = new LiquibaseConfig(this.postgresConfigService, this.appConfig);
+      LiquibaseConfig.instance = new LiquibaseConfig(
+        this.postgresConfigService,
+        this.appConfig,
+      );
     }
     return LiquibaseConfig.instance;
   }
 
-   getLiquibaseConfig(): Liquibase {
-    const instance = this.getInstance()
-     console.log('LiquibaseConfig instance:', instance);
+  getLiquibaseConfig(): Liquibase {
+    const instance = this.getInstance();
+    console.log('LiquibaseConfig instance:', instance);
     return new Liquibase({
       url: this.postgresConfigService.getUrl(),
       username: this.postgresConfigService.getUsername(),

@@ -54,5 +54,4 @@ export class OpenAPIConfig implements SwaggerCustomOptions {
       swaggerOptions: this.swaggerOptions,
     };
   }
-
 }

@@ -5,13 +5,7 @@ import { ConfigModule } from '@/config/config.module';
 
 @Module({
   imports: [ConfigModule],
-  providers: [
-    PostgresConfigService,
-    TypeormPostgresConfig,
-  ],
-  exports: [
-    PostgresConfigService,
-    TypeormPostgresConfig,
-  ],
+  providers: [PostgresConfigService, TypeormPostgresConfig],
+  exports: [PostgresConfigService, TypeormPostgresConfig],
 })
 export class PostgresConfigModule {}

@@ -8,9 +8,9 @@ import { randomUUID } from 'crypto';
   imports: [
     PostgresConfigModule,
     TypeOrmModule.forRootAsync({
-    imports: [PostgresConfigModule],
+      imports: [PostgresConfigModule],
       useClass: TypeormDatabaseService,
-    })
+    }),
   ],
   providers: [TypeormDatabaseService],
   exports: [TypeormDatabaseService],

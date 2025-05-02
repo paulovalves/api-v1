@@ -4,7 +4,10 @@ import { OpenapiService } from '@/config/api/openapi/openapi.service';
 
 @Injectable()
 export class AppService {
-  constructor(private typeormDatabaseService: TypeormDatabaseService, private openapiService: OpenapiService) {}
+  constructor(
+    private typeormDatabaseService: TypeormDatabaseService,
+    private openapiService: OpenapiService,
+  ) {}
 
   getHello(): string {
     return 'Hello World!';

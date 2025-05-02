@@ -7,16 +7,19 @@ import { RuntimeException } from '@nestjs/core/errors/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserFilterEntity } from '@/domains/user/filters/user-filter.entity';
-import { UserRoleEntity } from '@/domains/user/entities/user-role.entity';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>) {
-  }
+  constructor(
+    @InjectRepository(UserEntity)
+    private readonly userRepository: Repository<UserEntity>,
+  ) {}
 
   async create(createUserDto: CreateUserDto): Promise<UserOutputDto> {
     try {
-      const exists = await this.userRepository.exists({ where: { email: createUserDto.email } });
+      const exists = await this.userRepository.exists({
+        where: { email: createUserDto.email },
+      });
       if (exists) {
         throw new RuntimeException('Erro ao criar usuário');
       }
@@ -35,9 +38,9 @@ export class UserService {
   async findAll(): Promise<UserOutputDto[]> {
     try {
       const users = await this.userRepository.find();
-      const usersOutput = users
-        .map((user) => UserOutputDto
-        .toUserOutputDto(user));
+      const usersOutput = users.map((user) =>
+        UserOutputDto.toUserOutputDto(user),
+      );
       return usersOutput;
     } catch (error) {
       console.error('ERROR: ', error);
@@ -45,12 +48,11 @@ export class UserService {
     }
   }
 
-
-
   async findOne(filter: UserFilterEntity): Promise<UserOutputDto> {
     try {
-      const user = await this.userRepository
-        .findOne({ where: UserFilterEntity.queryBuilder(filter) });
+      const user = await this.userRepository.findOne({
+        where: UserFilterEntity.queryBuilder(filter),
+      });
       if (!user) {
         throw new RuntimeException('Usuário não encontrado');
       }
@@ -60,14 +62,44 @@ export class UserService {
       console.error('ERROR: ', error);
       throw new RuntimeException(error);
     }
-
   }
 
-  update(id: number, updateUserDto: UpdateUserDto): UserOutputDto {
-    return new UserOutputDto(1, '', '', UserRoleEntity.fromId(1));
+  async update(
+    id: number,
+    updateUserDto: UpdateUserDto,
+  ): Promise<UserOutputDto> {
+    try {
+      const user = await this.userRepository.findOne({ where: { id } });
+      if (!user) {
+        throw new RuntimeException('Usuário não encontrado');
+      }
+      user.toUser(updateUserDto);
+      const userUpdated = await this.userRepository.save(user);
+      const userOutput = UserOutputDto.toUserOutputDto(userUpdated);
+      if (!userUpdated) {
+        throw new RuntimeException('Erro ao atualizar usuário');
+      }
+      return userOutput;
+    } catch (error) {
+      console.error('ERROR: ', error);
+      throw new RuntimeException(error);
+    }
   }
 
-  remove(id: number): boolean {
-    return true;
+  async remove(id: number): Promise<boolean> {
+    try {
+      const user = await this.userRepository.findOne({ where: { id } });
+      if (!user) {
+        throw new RuntimeException('Usuário não encontrado');
+      }
+      const result = await this.userRepository.delete(id);
+      if (!result) {
+        throw new RuntimeException('Erro ao remover usuário');
+      }
+      return true;
+    } catch (error) {
+      console.error('ERROR: ', error);
+      throw new RuntimeException(error);
+    }
   }
 }

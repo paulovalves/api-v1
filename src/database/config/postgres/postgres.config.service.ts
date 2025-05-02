@@ -8,12 +8,13 @@ export class PostgresConfigService implements PostgresConfig {
   constructor(private configService: NestConfigService) {}
 
   getHost(): string {
-
     return this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_HOST')!;
   }
 
   getPort(): number {
-    return Number(this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_PORT'));
+    return Number(
+      this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_PORT'),
+    );
   }
 
   getUsername(): string {
@@ -21,23 +22,32 @@ export class PostgresConfigService implements PostgresConfig {
   }
 
   getPassword(): string {
-    return this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_PASSWORD')!;
+    return this.configService.getOrThrow<string>(
+      'POSTGRES_LOCALHOST_PASSWORD',
+    )!;
   }
 
   getDatabase(): string {
-    return this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_DATABASE')!;
+    return this.configService.getOrThrow<string>(
+      'POSTGRES_LOCALHOST_DATABASE',
+    )!;
   }
 
   isLogging(): boolean {
-    return this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_LOGGING') === 'true';
+    return (
+      this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_LOGGING') ===
+      'true'
+    );
   }
 
   isSync(): boolean {
-    return this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_SYNC') === 'true';
+    return (
+      this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_SYNC') ===
+      'true'
+    );
   }
 
   getUrl(): string {
     return `jdbc:postgresql://${this.getHost()}:${this.getPort()}/${this.getDatabase()}`;
   }
-
 }

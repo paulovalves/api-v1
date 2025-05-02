@@ -12,9 +12,8 @@ export class LiquibaseService {
   ) {}
 
   getConfig() {
-    return LiquibaseConfig
+    return LiquibaseConfig;
   }
 
-  async update(config) {
-  }
+  async update(config) {}
 }

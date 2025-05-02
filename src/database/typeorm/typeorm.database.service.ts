@@ -4,9 +4,7 @@ import { TypeormPostgresConfig } from '@/database/typeorm/typeorm.postgres.confi
 
 @Injectable()
 export class TypeormDatabaseService implements TypeOrmOptionsFactory {
-  constructor(
-    private typeormPostgresConfig: TypeormPostgresConfig
-  ) {}
+  constructor(private typeormPostgresConfig: TypeormPostgresConfig) {}
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
     console.warn('Getting TypeORM options');

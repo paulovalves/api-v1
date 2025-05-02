@@ -9,7 +9,7 @@ export default tseslint.config(
     ignores: ['eslint.config.mjs'],
   },
   eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
+  ...tseslint.configs.recommended,
   eslintPluginPrettierRecommended,
   {
     languageOptions: {
@@ -29,17 +29,8 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'warn',
       '@typescript-eslint/no-unsafe-argument': 'warn',
-      // no trailing commas
-      'comma-dangle': [
-        'error',
-        {
-          arrays: 'always-multiline',
-          objects: 'always-multiline',
-          imports: 'always-multiline',
-          exports: 'always-multiline',
-          functions: 'ignore',
-        },
-      ],
+      '@typescript-eslint/ban-ts-comment': 'error',
+      '@typescript-eslint/no-magic-numbers': 'off',
     },
   },
 );

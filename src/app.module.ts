@@ -7,7 +7,12 @@ import { TypeormDatabaseModule } from '@/database/typeorm/typeorm.database.modul
 import { OpenAPIModule } from '@/config/api/openapi/openapi.module';
 
 @Module({
-  imports: [DomainsModule, DatabaseModule, TypeormDatabaseModule, OpenAPIModule],
+  imports: [
+    DomainsModule,
+    DatabaseModule,
+    TypeormDatabaseModule,
+    OpenAPIModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

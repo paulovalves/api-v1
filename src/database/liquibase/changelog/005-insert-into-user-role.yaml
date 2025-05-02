@@ -1,0 +1,43 @@
+databaseChangeLog:
+  - changeSet:
+      id: 005-insert-into-user-role
+      author: Paulo Alves (paulovalves@outlook.com)
+      changes:
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: name
+                  value: "ADMIN"
+              - column:
+                  name: description
+                  value: "Administrator role with full access"
+
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: name
+                  value: "USER"
+              - column:
+                  name: description
+                  value: "Regular user role with limited access"
+
+        - insert:
+            tableName: user_role
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 3
+              - column:
+                  name: name
+                  value: "GUEST"
+              - column:
+                  name: description
+                  value: "Guest user role with minimal access"

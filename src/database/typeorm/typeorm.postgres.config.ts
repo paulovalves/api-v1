@@ -8,7 +8,10 @@ import { UserStatusEntity } from '@/domains/user/entities/user-status.entity';
 
 @Injectable()
 export class TypeormPostgresConfig {
-  constructor(private postgresConfigService: PostgresConfigService, private appConfig: AppConfig) {}
+  constructor(
+    private postgresConfigService: PostgresConfigService,
+    private appConfig: AppConfig,
+  ) {}
 
   get(): DataSourceOptions {
     const isDev = process.env.NODE_ENV !== 'production';

@@ -4,7 +4,6 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppConfig extends ConfigService implements AppConfigInterface {
-
   constructor() {
     super();
   }
