@@ -1,7 +1,6 @@
 import { UserEntity } from '@/domains/user/entities/user.entity';
 import { UserRoleEntity } from '@/domains/user/entities/user-role.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { Property } from '@/common/decorators/decorator.common';
 
 /**
  * @description DTO for creating a user

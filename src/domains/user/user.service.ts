@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { UserOutputDto } from '@/domains/user/dto/user.output.dto';
-import { UserEntity } from '@/domains/user/entities/user.entity';
+import { CreateUserDto } from '../user/dto/create-user.dto';
+import { UpdateUserDto } from '../user/dto/update-user.dto';
+import { UserOutputDto } from '../user/dto/user.output.dto';
+import { UserEntity } from '../user/entities/user.entity';
 import { RuntimeException } from '@nestjs/core/errors/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserFilterEntity } from '@/domains/user/filters/user-filter.entity';
+import { UserFilterEntity } from '../user/filters/user-filter.entity';
 
 @Injectable()
 export class UserService {

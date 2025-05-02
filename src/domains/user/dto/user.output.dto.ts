@@ -10,25 +10,39 @@ export class UserOutputDto {
     this.role = role;
   }
 
-  @ApiProperty()
+  @ApiProperty({ name: 'id', type: Number })
   id: number;
 
-  @ApiProperty()
+  @ApiProperty({ name: 'name', type: String })
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({ name: 'email', type: String })
   email: string;
 
-  @ApiProperty()
+  @ApiProperty({ name: 'createdAt', type: Date })
   createdAt: Date;
 
-  @ApiProperty()
+  @ApiProperty({ name: 'updatedAt', type: Date })
   updatedAt: Date;
 
-  @ApiProperty()
+  @ApiProperty({
+    name: 'role',
+    type: UserRoleEntity,
+    nullable: false,
+    enum: [
+      UserRoleEntity.fromId(1),
+      UserRoleEntity.fromId(2),
+      UserRoleEntity.fromId(3),
+    ],
+  })
   role: UserRoleEntity;
 
   static toUserOutputDto(user: UserEntity): UserOutputDto {
-    return new UserOutputDto(user.id, user.name, user.email, user.role);
+    return new UserOutputDto(
+      user.id,
+      user.name,
+      user.email,
+      UserRoleEntity.fromId(user.role.id),
+    );
   }
 }
