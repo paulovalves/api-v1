@@ -1,37 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}}</title>
-    <link rel="stylesheet" href="/styles.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <meta charset="UTF-8">
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="/public/styles.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f8f9fa;
+      color: #333;
+      padding: 2rem;
+      text-align: center;
+    }
+    .logo {
+      height: 60px;
+      margin: 0 10px;
+    }
+    .tech {
+      margin: 20px 0;
+    }
+    a.button {
+      background: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #888;
+    }
+  </style>
 </head>
-
 <body>
-    <header>
-        <h1>{{title}}</h1>
-    </header>
-    <main>
-        <section id="form-section">
-            <h2>Submit a new post</h2>
-            <form id="post-form">
-              <label for="post-title"></label><input type="text" id="post-title" placeholder="Post Title" required>
-              <label for="post-content"></label><textarea id="post-content" placeholder="Post Content" required></textarea>
-                <button type="submit">Submit</button>
-            </form>
-        </section>
+<h1>{{title}}</h1>
+<p>{{description}}</p>
 
-        <section id="posts-section">
-            <h2>Posts</h2>
-            <ul id="posts-list"></ul>
-        </section>
-    </main>
+<div class="tech">
+  <h2>Tech Stack</h2>
+  <img src="/public/assets/nestjs.svg" alt="NestJS" class="logo">
+  <img src="/public/assets/nodejs.svg" alt="Node.js" class="logo">
+  <img src="/public/assets/react.svg" alt="React" class="logo">
+  <img src="/public/assets/typescript.svg" alt="TypeScript" class="logo">
+  <img src="/public/assets/postgresql.svg" alt="PostgreSQL" class="logo">
+  <img src="/public/assets/docker.svg" alt="Docker" class="logo">
+  <img src="/public/assets/liquibase.svg" alt="Liquibase" class="logo">
+  <img src="/public/assets/swagger.svg" alt="Swagger" class="logo">
+  <img src="/public/assets/jest.svg" alt="Jest" class="logo">
+  <img src="/public/assets/eslint.svg" alt="eslint" class="logo">
+</div>
 
-    <script src="/script.js"></script>
+<p>
+  <a class="button" href="/api/api-docs">View Swagger API Docs</a>
+</p>
+
+<div class="footer">
+  <p>Created by Paulo Alves &lt;<a href="mailto:paulovalves@outlook.com">paulovalves@outlook.com</a>&gt;</p>
+  <p>&copy; 2025 - API Example Project</p>
+</div>
 </body>
-
 </html>
-{{! This is a simple HTML template for a blog application. It includes a form for submitting new posts and a section to display existing posts. The form uses jQuery and Axios for handling submissions and fetching posts from the server. }}
