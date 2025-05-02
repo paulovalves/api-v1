@@ -8,7 +8,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserFilterEntity } from '../user/filters/user-filter.entity';
 import { AuditService } from '@/common/audit/audit-log.service';
-import { TableEnum } from '@/database/config/db/tables';
 
 @Injectable()
 export class UserService {
@@ -29,13 +28,6 @@ export class UserService {
       const user = new UserEntity();
       user.toUser(createUserDto);
       const userCreated = await this.userRepository.save(user);
-
-      await this.auditService.createAuditLog(
-        TableEnum.USERS,
-        createUserDto,
-        user,
-        userCreated.id,
-      );
 
       const userOutput = UserOutputDto.toUserOutputDto(userCreated);
 
@@ -75,25 +67,33 @@ export class UserService {
     }
   }
 
-  async update(
-    id: number,
-    updateUserDto: UpdateUserDto,
-  ): Promise<UserOutputDto> {
+  async findUser(filter: UserFilterEntity): Promise<UserEntity> {
     try {
       const user = await this.userRepository.findOne({
-        where: { id },
+        where: UserFilterEntity.queryBuilder(filter),
       });
       if (!user) {
         throw new RuntimeException('Usuário não encontrado');
       }
-      await this.auditService.createAuditLog(
-        TableEnum.USERS,
-        updateUserDto,
-        user,
-        id,
-      );
+      return user;
+    } catch (error) {
+      console.error('ERROR: ', error);
+      throw new RuntimeException(error);
+    }
+  }
 
-      user.toUser(updateUserDto);
+  async update(updateUserDto: UpdateUserDto): Promise<UserOutputDto> {
+    try {
+      const filter = new UserFilterEntity(updateUserDto, null);
+
+      const exists = await this.findUser(filter);
+
+      if (!exists) {
+        throw new RuntimeException('Usuário não encontrado');
+      }
+
+      const user = new UserEntity();
+      user.toUser(UpdateUserDto.toUpdateDto(exists));
       const userUpdated = await this.userRepository.save(user);
       const userOutput = UserOutputDto.toUserOutputDto(userUpdated);
       if (!userUpdated) {

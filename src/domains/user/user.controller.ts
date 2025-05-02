@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
   Res,
-  HttpStatus,
+  HttpStatus
 } from '@nestjs/common';
 import { Response } from 'express';
 import { UserService } from './user.service';
@@ -103,13 +103,35 @@ export class UserController extends BaseApiController {
     }
   }
 
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return await this.userService.update(+id, updateUserDto);
+  @Patch()
+  async update(@Body() updateUserDto: UpdateUserDto, @Res() res: Response) {
+    try {
+      const response = await this.userService.update(updateUserDto);
+      return res.status(HttpStatus.OK).json({
+        message: 'Usuário atualizado com sucesso',
+        data: response,
+      });
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: 'Erro ao atualizar usuário', data: {} });
+    }
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: string) {
-    return await this.userService.remove(+id);
+  async remove(@Param('id') id: string, @Res() res: Response) {
+    try {
+      const response = await this.userService.remove(Number(id));
+      return res.status(HttpStatus.OK).json({
+        message: 'Usuário removido com sucesso',
+        data: response,
+      });
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .json({ message: 'Erro ao remover o usuário', data: {} });
+    }
   }
 }

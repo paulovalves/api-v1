@@ -73,6 +73,11 @@ describe('UserController', () => {
     const filter: UserFilterEntity = {
       id: 1,
       isActive: null,
+      name: null,
+      email: null,
+      createdAt: null,
+      updatedAt: null,
+      deletedAt: null,
     };
     await controller.findOne(filter, res);
     expect(service.findOne).toHaveBeenCalledWith(filter);
@@ -84,19 +89,22 @@ describe('UserController', () => {
   });
 
   it('should update a user', async () => {
+    const res = mockResponse();
     const dto: UpdateUserDto = {
+      id: 1,
       name: 'Updated',
       email: 'any@email.com',
       password: '1234',
       role: UserRoleEntity.fromId(1),
     };
-    const result = await controller.update('1', dto);
+    const result = await controller.update(dto, res);
     expect(service.update).toHaveBeenCalledWith(1, dto);
     expect(result).toEqual({ id: 1, name: 'Updated' });
   });
 
   it('should delete a user', async () => {
-    const result = await controller.remove('1');
+    const res = mockResponse();
+    const result = await controller.remove('1', res);
     expect(service.remove).toHaveBeenCalledWith(1);
     expect(result).toEqual({ deleted: true });
   });

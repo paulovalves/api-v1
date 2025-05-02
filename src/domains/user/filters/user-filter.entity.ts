@@ -2,14 +2,31 @@ import { UserRoleEntity } from '@/domains/user/entities/user-role.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { FindOptionsWhere } from 'typeorm';
 import { UserEntity } from '@/domains/user/entities/user.entity';
+import { CreateUserDto, UpdateUserDto } from '@/domains/user';
+import { UserStatusEntity } from '@/domains/user/entities/user-status.entity';
 
 export class UserFilterEntity {
+  constructor(
+    entity: CreateUserDto | UpdateUserDto | UserEntity,
+    status: UserStatusEntity | null,
+  ) {
+    this.id = entity.id;
+    this.name = entity.name;
+    this.email = entity.email;
+    this.role = entity.role;
+    if (status) {
+      this.createdAt = status.createdAt;
+      this.updatedAt = status.updatedAt;
+      this.deletedAt = status.deletedAt;
+      this.isActive = status.isActive;
+    }
+  }
   @ApiProperty({ name: 'id', type: 'number' })
-  id?: number | null;
+  id: number | null | undefined = null;
   @ApiProperty({ name: 'name', type: 'string' })
-  name?: string | null;
+  name: string | null = null;
   @ApiProperty({ name: 'email', type: 'string' })
-  email?: string | null;
+  email: string | null = null;
   @ApiProperty({
     name: 'role',
     enumName: 'UserRoleEntity',
@@ -25,19 +42,19 @@ export class UserFilterEntity {
     format: 'YYYY-MM-DD HH:mm:ss',
     example: '',
   })
-  createdAt?: Date | null;
+  createdAt: Date | null = null;
   @ApiProperty({
     name: 'updatedAt',
     format: 'YYYY-MM-DD HH:mm:ss',
     example: '',
   })
-  updatedAt?: Date | null;
+  updatedAt: Date | null = null;
   @ApiProperty({
     name: 'deletedAt',
     format: 'YYYY-MM-DD HH:mm:ss',
     example: '',
   })
-  deletedAt?: Date | null;
+  deletedAt: Date | null = null;
   @ApiProperty({ name: 'isActive', type: 'boolean' })
   isActive: boolean | null;
 

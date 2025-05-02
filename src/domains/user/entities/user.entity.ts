@@ -42,7 +42,7 @@ export class UserEntity extends BaseEntity {
   /**
    * Converte um objeto DTO para a entidade UserEntity.
    *
-   * @param {CreateUserDto | UserInputDto } dto - Objeto DTO a ser convertido.
+   * @param { CreateUserDto } dto - Objeto DTO a ser convertido.
    *
    */
   toUser(dto: CreateUserDto) {
