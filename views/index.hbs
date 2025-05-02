@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>{{title}}</h1>
+    </header>
+    <main>
+        <section id="form-section">
+            <h2>Submit a new post</h2>
+            <form id="post-form">
+              <label for="post-title"></label><input type="text" id="post-title" placeholder="Post Title" required>
+              <label for="post-content"></label><textarea id="post-content" placeholder="Post Content" required></textarea>
+                <button type="submit">Submit</button>
+            </form>
+        </section>
+
+        <section id="posts-section">
+            <h2>Posts</h2>
+            <ul id="posts-list"></ul>
+        </section>
+    </main>
+
+    <script src="/script.js"></script>
+</body>
+
+</html>
+{{! This is a simple HTML template for a blog application. It includes a form for submitting new posts and a section to display existing posts. The form uses jQuery and Axios for handling submissions and fetching posts from the server. }}
