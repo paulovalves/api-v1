@@ -11,3 +11,5 @@ databaseChangeLog:
       file: 005-insert-into-user-role.yaml
   - include:
       file: 006-alter-table-user.yaml
+  - include:
+      file: 007-create-table-audit-log.yaml

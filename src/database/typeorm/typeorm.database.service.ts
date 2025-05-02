@@ -7,8 +7,7 @@ export class TypeormDatabaseService implements TypeOrmOptionsFactory {
   constructor(private typeormPostgresConfig: TypeormPostgresConfig) {}
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
-    console.warn('Getting TypeORM options');
-    console.log('GET: ', this.typeormPostgresConfig.get());
+    console.info('Getting TypeORM options');
     return this.typeormPostgresConfig.get();
   }
 }

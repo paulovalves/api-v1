@@ -16,5 +16,7 @@ docker-compose build --no-cache &&
 # subir o Liquibase
 #docker-compose build --no-cache liquibase
 
+#docker-compose run --rm liquibase
+
 # subir os containers
 docker-compose up
