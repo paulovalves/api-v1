@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { TypeormDatabaseService } from '@/database/typeorm/typeorm.database.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostgresConfigModule } from '@/database/config/postgres/postgres.config.module';
-import { randomUUID } from 'crypto';
 
 @Module({
   imports: [

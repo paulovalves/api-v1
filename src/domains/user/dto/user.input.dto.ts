@@ -4,7 +4,6 @@ import { UserEntity } from '../entities/user.entity';
 import { Property } from '@/common/decorators/decorator.common';
 
 export class UserInputDto {
-  constructor() {}
 
   @ApiProperty({ name: 'id', type: 'number', nullable: true, example: 1 })
   @Property({

@@ -4,12 +4,8 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppConfig extends ConfigService implements AppConfigInterface {
-  constructor() {
-    super();
-  }
-
   getAppName(): string {
-    return this.get<string>('APP_NAME') || '';
+    return this.get<string>('APP_NAME') ?? '';
   }
 
   getAppVersion(): string {

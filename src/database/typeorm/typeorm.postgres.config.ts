@@ -9,8 +9,8 @@ import { UserStatusEntity } from '@/domains/user/entities/user-status.entity';
 @Injectable()
 export class TypeormPostgresConfig {
   constructor(
-    private postgresConfigService: PostgresConfigService,
-    private appConfig: AppConfig,
+    private readonly postgresConfigService: PostgresConfigService,
+    private readonly appConfig: AppConfig,
   ) {}
 
   get(): DataSourceOptions {

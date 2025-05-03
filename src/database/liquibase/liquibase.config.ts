@@ -4,14 +4,12 @@ import { AppConfig } from '@/config/app/app.config';
 
 export class LiquibaseConfig {
   private static instance: LiquibaseConfig;
-  private static isInitialized = false;
   private static isRunning = false;
   private static isUpdated = false;
-  private static isRollback = false;
 
   constructor(
-    private postgresConfigService: PostgresConfigService,
-    private appConfig: AppConfig,
+    private readonly postgresConfigService: PostgresConfigService,
+    private readonly appConfig: AppConfig,
   ) {}
 
   getInstance(): LiquibaseConfig {
@@ -43,7 +41,6 @@ export class LiquibaseConfig {
     }
     LiquibaseConfig.isRunning = true;
     try {
-      const liquibase = this.getLiquibaseConfig();
       await this.getLiquibaseConfig().update({});
       LiquibaseConfig.isUpdated = true;
     } catch (error) {

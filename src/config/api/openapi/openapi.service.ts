@@ -1,7 +1,7 @@
 import { OpenAPIConfig } from '@/config/api/openapi/openapi.config';
 
 export class OpenapiService {
-  private openapiConfig: OpenAPIConfig;
+  private readonly openapiConfig: OpenAPIConfig;
 
   constructor() {
     this.openapiConfig = new OpenAPIConfig();
