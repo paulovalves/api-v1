@@ -24,8 +24,14 @@ ENV CHANGELOG_FOLDER_LOCALHOST_PATH=/app/src/database/liquibase/changelog
 
 # ✅ Use apt-get only
 RUN apt-get update && \
-    apt-get install -y unzip curl tree \
-    netcat-openbsd postgresql-client openjdk-17-jre && \
+    apt-get install -y \
+    curl \
+    netcat-openbsd \
+    openjdk-17-jre \
+    postgresql-client \
+    tree \
+    unzip && \
+    apt clean && \
     curl -sSL https://github.com/liquibase/liquibase/releases/download/v4.25.1/liquibase-4.25.1.zip -o liquibase.zip && \
     unzip liquibase.zip -d /opt/liquibase && \
     ln -s /opt/liquibase/liquibase /usr/local/bin/liquibase && \
