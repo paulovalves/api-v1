@@ -5,7 +5,7 @@ import { PostgresConfig } from '@/domains/interfaces/postgres-config.interface';
 
 @Injectable()
 export class PostgresConfigService implements PostgresConfig {
-  constructor(private configService: NestConfigService) {}
+  constructor(private readonly configService: NestConfigService) {}
 
   getHost(): string {
     return this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_HOST')!;
