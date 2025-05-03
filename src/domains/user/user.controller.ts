@@ -7,7 +7,7 @@ import {
   Param,
   Delete,
   Res,
-  HttpStatus
+  HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { UserService } from './user.service';
@@ -15,6 +15,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { BaseApiController } from '@/domains/common/base-api.controller';
 import { UserFilterEntity } from '@/domains/user/filters/user-filter.entity';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 /**
  * Controller for managing users.
@@ -27,6 +28,7 @@ import { UserFilterEntity } from '@/domains/user/filters/user-filter.entity';
  *
  */
 @Controller('user')
+@ApiTags('User')
 export class UserController extends BaseApiController {
   constructor(private readonly userService: UserService) {
     super();
@@ -40,6 +42,18 @@ export class UserController extends BaseApiController {
    * @returns {Promise<Response>} - A promise that resolves when the user is created.
    */
   @Post('create')
+  @ApiOperation({
+    summary: 'Adiciona um novo usuário',
+    description: 'Cria um novo usuário com os dados fornecidos.',
+    responses: {
+      201: {
+        description: 'Usuário criado com sucesso',
+      },
+      500: {
+        description: 'Erro ao criar usuário',
+      },
+    },
+  })
   async create(
     @Body() createUserDto: CreateUserDto,
     @Res() res: Response,
@@ -64,6 +78,18 @@ export class UserController extends BaseApiController {
    * @returns {Promise<Response>} - A promise that resolves with the list of users.
    */
   @Get('users')
+  @ApiOperation({
+    summary: 'Listar todos os usuários',
+    description: 'Retorna uma lista de todos os usuários cadastrados.',
+    responses: {
+      200: {
+        description: 'Usuários encontrados com sucesso',
+      },
+      500: {
+        description: 'Erro ao buscar usuários',
+      },
+    },
+  })
   async findAll(@Res() res: Response): Promise<Response> {
     try {
       const response = await this.userService.findAll();
@@ -74,7 +100,7 @@ export class UserController extends BaseApiController {
       console.error(error);
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: 'Erro ao encontrar usuários', data: {} });
+        .json({ message: 'Erro ao buscar usuários', data: {} });
     }
   }
 
@@ -85,6 +111,18 @@ export class UserController extends BaseApiController {
    *
    * @returns {Promise<Response>} - A promise that resolves with the user data.
    */
+  @ApiOperation({
+    summary: 'Buscar usuário por ID',
+    description: 'Retorna os dados de um usuário específico.',
+    responses: {
+      200: {
+        description: 'Usuário encontrado com sucesso',
+      },
+      500: {
+        description: 'Erro ao buscar usuário',
+      },
+    },
+  })
   @Post('user')
   async findOne(
     @Body() filter: UserFilterEntity,
@@ -103,8 +141,30 @@ export class UserController extends BaseApiController {
     }
   }
 
+  /**
+   * Updates a user.
+   * @param {UpdateUserDto} updateUserDto - The user data to update.
+   * @param {Response} res - The response object.
+   *
+   * @returns {Promise<Response>} - A promise that resolves when the user is updated.
+   */
+  @ApiOperation({
+    summary: 'Atualizar usuário',
+    description: 'Atualiza os dados de um usuário existente.',
+    responses: {
+      200: {
+        description: 'Usuário atualizado com sucesso',
+      },
+      500: {
+        description: 'Erro ao atualizar usuário',
+      },
+    },
+  })
   @Patch()
-  async update(@Body() updateUserDto: UpdateUserDto, @Res() res: Response) {
+  async update(
+    @Body() updateUserDto: UpdateUserDto,
+    @Res() res: Response,
+  ): Promise<Response> {
     try {
       const response = await this.userService.update(updateUserDto);
       return res.status(HttpStatus.OK).json({
@@ -119,8 +179,30 @@ export class UserController extends BaseApiController {
     }
   }
 
+  /**
+   * Deletes a user by ID.
+   * @param {string} id - The ID of the user to delete.
+   * @param {Response} res - The response object.
+   *
+   * @returns {Promise<Response>} - A promise that resolves when the user is deleted.
+   */
+  @ApiOperation({
+    summary: 'Remover usuário',
+    description: 'Remove um usuário específico pelo ID.',
+    responses: {
+      200: {
+        description: 'Usuário removido com sucesso',
+      },
+      500: {
+        description: 'Erro ao remover usuário',
+      },
+    },
+  })
   @Delete(':id')
-  async remove(@Param('id') id: string, @Res() res: Response) {
+  async remove(
+    @Param('id') id: string,
+    @Res() res: Response,
+  ): Promise<Response> {
     try {
       const response = await this.userService.remove(Number(id));
       return res.status(HttpStatus.OK).json({

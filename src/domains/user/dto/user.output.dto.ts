@@ -19,12 +19,6 @@ export class UserOutputDto {
   @ApiProperty({ name: 'email', type: String })
   email: string;
 
-  @ApiProperty({ name: 'createdAt', type: Date })
-  createdAt: Date;
-
-  @ApiProperty({ name: 'updatedAt', type: Date })
-  updatedAt: Date;
-
   @ApiProperty({
     name: 'role',
     type: UserRoleEntity,

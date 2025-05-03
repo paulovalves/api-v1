@@ -26,10 +26,12 @@ async function bootstrap() {
   SwaggerModule.setup('api/api-docs', app, documentFactory);
   await app.listen(process.env.PORT ?? 8080, '0.0.0.0');
 
-  console.info(`Application is running on: ${await app.getUrl()}`);
-  console.info(`Swagger is running on: ${await app.getUrl()}/api/api-docs`);
-  console.info(`Static assets are served from: ${await app.getUrl()}/public`);
-  console.info(`View engine is set to: ${await app.getUrl()}/views`);
+  const API_URL = process.env.API_URL ?? 'http://api.app.local';
+
+  console.info(`Application is running on: ${API_URL}`);
+  console.info(`Swagger is running on: ${API_URL}/api/api-docs`);
+  console.info(`Static assets are served from: ${API_URL}/public`);
+  console.info(`View engine is set to: ${API_URL}/views`);
   console.info(`CORS is enabled for all origins`);
 }
 bootstrap();
