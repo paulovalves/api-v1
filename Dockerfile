@@ -31,11 +31,7 @@ RUN apt-get update && \
     postgresql-client \
     tree \
     unzip && \
-    apt clean && \
-    curl -sSL https://github.com/liquibase/liquibase/releases/download/v4.25.1/liquibase-4.25.1.zip -o liquibase.zip && \
-    unzip liquibase.zip -d /opt/liquibase && \
-    ln -s /opt/liquibase/liquibase /usr/local/bin/liquibase && \
-    rm liquibase.zip
+    apt clean
 
 
 COPY ./public ./public
@@ -45,8 +41,4 @@ RUN npm run build
 COPY ./views ./dist/views
 COPY ./public ./dist/public
 
-COPY ./liquibase-run.sh /app/liquibase-run.sh
-RUN chmod +x /app/liquibase-run.sh
-
 EXPOSE 8080
-CMD ["/app/liquibase-run.sh"]
