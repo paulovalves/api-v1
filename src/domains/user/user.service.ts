@@ -23,7 +23,7 @@ export class UserService {
         where: { email: createUserDto.email },
       });
       if (exists) {
-        throw new RuntimeException('Erro ao criar usuário');
+        throw new RuntimeException(`Usuário com o email [${createUserDto.email}] já existe!`);
       }
       const user = new UserEntity();
       user.toUser(createUserDto);
@@ -34,7 +34,7 @@ export class UserService {
       return userOutput;
     } catch (error) {
       console.error('ERROR: ', error);
-      throw new RuntimeException(error);
+      throw new RuntimeException('Erro ao criar o usuário');
     }
   }
 

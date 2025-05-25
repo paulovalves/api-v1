@@ -13,7 +13,7 @@ export class AppConfig extends ConfigService implements AppConfigInterface {
   }
 
   getAppPort(): number {
-    return this.getOrThrow<number>('APP_LOCALHOST_PORT');
+    return this.getOrThrow<number>('APP_PORT');
   }
 
   getAppEnv(): string {
@@ -21,22 +21,22 @@ export class AppConfig extends ConfigService implements AppConfigInterface {
   }
 
   getRootPath(): string {
-    return this.getOrThrow<string>('ROOT_LOCALHOST_PATH')!;
+    return this.getOrThrow<string>('ROOT_PATH')!;
   }
 
   getMigrationsPath(): string {
-    return this.getOrThrow<string>('MIGRATIONS_LOCALHOST_PATH')!;
+    return this.getOrThrow<string>('MIGRATIONS_PATH')!;
   }
 
   getClassPath() {
-    return this.getOrThrow<string>('CLASSPATH_LOCALHOST_PATH')!;
+    return this.getOrThrow<string>('CLASSPATH_PATH')!;
   }
 
   getChangeLogFilePath() {
-    return this.getOrThrow<string>('CHANGELOGFILE_LOCALHOST_PATH')!;
+    return this.getOrThrow<string>('CHANGELOGFILE_PATH')!;
   }
 
   getChangeLogFolderPath() {
-    return this.getOrThrow<string>('CHANGELOG_FOLDER_LOCALHOST_PATH')!;
+    return this.getOrThrow<string>('CHANGELOG_FOLDER_PATH')!;
   }
 }

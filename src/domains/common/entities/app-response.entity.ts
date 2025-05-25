@@ -1,9 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 
 export class ApiResponseEntity<T> {
-  @ApiProperty({ example: 'Mensagem de retorno' })
+  @ApiProperty({
+    name: 'message',
+    type: 'string',
+    example: 'Mensagem de retorno',
+  })
   message: string;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ name: 'data' })
   data: T;
 }

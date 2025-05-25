@@ -8,43 +8,31 @@ export class PostgresConfigService implements PostgresConfig {
   constructor(private readonly configService: NestConfigService) {}
 
   getHost(): string {
-    return this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_HOST')!;
+    return this.configService.getOrThrow<string>('POSTGRES_HOST')!;
   }
 
   getPort(): number {
-    return Number(
-      this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_PORT'),
-    );
+    return Number(this.configService.getOrThrow<string>('POSTGRES_PORT'));
   }
 
   getUsername(): string {
-    return this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_USER')!;
+    return this.configService.getOrThrow<string>('POSTGRES_USER')!;
   }
 
   getPassword(): string {
-    return this.configService.getOrThrow<string>(
-      'POSTGRES_LOCALHOST_PASSWORD',
-    )!;
+    return this.configService.getOrThrow<string>('POSTGRES_PASSWORD')!;
   }
 
   getDatabase(): string {
-    return this.configService.getOrThrow<string>(
-      'POSTGRES_LOCALHOST_DATABASE',
-    )!;
+    return this.configService.getOrThrow<string>('POSTGRES_DATABASE')!;
   }
 
   isLogging(): boolean {
-    return (
-      this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_LOGGING') ===
-      'true'
-    );
+    return this.configService.getOrThrow<string>('POSTGRES_LOGGING') === 'true';
   }
 
   isSync(): boolean {
-    return (
-      this.configService.getOrThrow<string>('POSTGRES_LOCALHOST_SYNC') ===
-      'true'
-    );
+    return this.configService.getOrThrow<string>('POSTGRES_SYNC') === 'true';
   }
 
   getUrl(): string {

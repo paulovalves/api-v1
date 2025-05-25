@@ -1,5 +1,4 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { BaseEntity } from '@/domains/common/entities/base.entity';
 import { UserRoleEntity } from '@/domains/user/entities/user-role.entity';
 import { UserStatusEntity } from '@/domains/user/entities/user-status.entity';
 import { CreateUserDto } from '@/domains/user/dto/create-user.dto';
@@ -17,26 +16,27 @@ import { CreateUserDto } from '@/domains/user/dto/create-user.dto';
  *
  */
 @Entity('users')
-export class UserEntity extends BaseEntity {
-  constructor() {
-    super();
-  }
+export class UserEntity {
+  constructor() {}
 
-  @Column()
+  @Column({ type: 'bigint', name: 'id_user', generatedIdentity: 'ALWAYS' })
+  id: number;
+
+  @Column({ type: 'varchar', name: 'name', unique: true, length: 255 })
   name: string;
 
-  @Column()
+  @Column({ type: 'varchar', name: 'email', unique: true, length: 255 })
   email: string;
 
-  @Column()
+  @Column({ type: 'varchar', name: 'password', length: 255 })
   password: string;
 
   @ManyToOne(() => UserRoleEntity, { eager: true })
-  @JoinColumn({ name: 'role_id' })
+  @JoinColumn({ name: 'id_role' })
   role: UserRoleEntity;
 
   @ManyToOne(() => UserStatusEntity, { eager: true })
-  @JoinColumn({ name: 'status_id' })
+  @JoinColumn({ name: 'id_status' })
   status: UserStatusEntity;
 
   /**

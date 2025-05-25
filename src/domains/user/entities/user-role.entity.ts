@@ -1,15 +1,16 @@
-import { BaseEntity } from '@/domains/common/entities/base.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
 import { UserEntity } from '@/domains/user/entities/user.entity';
 
 @Entity('user_role')
-export class UserRoleEntity extends BaseEntity {
+export class UserRoleEntity {
   constructor(id: number, name: string, description: string) {
-    super();
     this.id = id;
     this.name = name;
     this.description = description;
   }
+
+  @Column({ type: 'bigint', name: 'id_user_role', generatedIdentity: 'ALWAYS' })
+  id: number;
 
   @Column({ type: 'varchar', name: 'name' })
   name: string;

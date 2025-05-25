@@ -21,12 +21,16 @@ export class UserFilterEntity {
       this.isActive = status.isActive;
     }
   }
+
   @ApiProperty({ name: 'id', type: 'number' })
   id: number | null | undefined = null;
+
   @ApiProperty({ name: 'name', type: 'string' })
   name: string | null = null;
+
   @ApiProperty({ name: 'email', type: 'string' })
   email: string | null = null;
+
   @ApiProperty({
     name: 'role',
     enumName: 'UserRoleEntity',
@@ -37,26 +41,33 @@ export class UserFilterEntity {
     ],
   })
   role?: UserRoleEntity | null;
+
   @ApiProperty({
     name: 'createdAt',
     format: 'YYYY-MM-DD HH:mm:ss',
     example: '',
   })
   createdAt: Date | null = null;
+
   @ApiProperty({
     name: 'updatedAt',
     format: 'YYYY-MM-DD HH:mm:ss',
     example: '',
   })
   updatedAt: Date | null = null;
+
   @ApiProperty({
     name: 'deletedAt',
     format: 'YYYY-MM-DD HH:mm:ss',
     example: '',
   })
   deletedAt: Date | null = null;
+
   @ApiProperty({ name: 'isActive', type: 'boolean' })
   isActive: boolean | null;
+
+  @ApiProperty({ name: 'documento', type: 'string' })
+  documento: string | null;
 
   static queryBuilder(filter: UserFilterEntity): FindOptionsWhere<UserEntity> {
     const where: FindOptionsWhere<UserEntity> = {};

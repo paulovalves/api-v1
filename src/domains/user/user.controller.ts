@@ -41,7 +41,6 @@ export class UserController extends BaseApiController {
    *
    * @returns {Promise<Response>} - A promise that resolves when the user is created.
    */
-  @Post('create')
   @ApiOperation({
     summary: 'Adiciona um novo usuário',
     description: 'Cria um novo usuário com os dados fornecidos.',
@@ -54,6 +53,7 @@ export class UserController extends BaseApiController {
       },
     },
   })
+  @Post('create')
   async create(
     @Body() createUserDto: CreateUserDto,
     @Res() res: Response,
@@ -64,10 +64,10 @@ export class UserController extends BaseApiController {
         .status(HttpStatus.CREATED)
         .json({ message: 'Usuário criado com sucesso', data: response });
     } catch (error) {
-      console.error(error);
+      console.error('[CONTROLLER]:', error);
       return res
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json({ message: error, data: {} });
+        .json({ message: error.message, data: {} });
     }
   }
 
@@ -77,7 +77,6 @@ export class UserController extends BaseApiController {
    *
    * @returns {Promise<Response>} - A promise that resolves with the list of users.
    */
-  @Get('users')
   @ApiOperation({
     summary: 'Listar todos os usuários',
     description: 'Retorna uma lista de todos os usuários cadastrados.',
@@ -90,6 +89,7 @@ export class UserController extends BaseApiController {
       },
     },
   })
+  @Get('users')
   async findAll(@Res() res: Response): Promise<Response> {
     try {
       const response = await this.userService.findAll();

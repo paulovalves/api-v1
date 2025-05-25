@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn } from 'typeorm';
 import { BaseEntity } from '@/domains/common/entities/base.entity';
 
 @Entity('user_status')
-export class UserStatusEntity extends BaseEntity {
+export class UserStatusEntity {
   constructor(
     id: number,
     id_user: number,
@@ -12,7 +12,6 @@ export class UserStatusEntity extends BaseEntity {
     deletedAt: Date,
     isActive: boolean,
   ) {
-    super();
     this.id = id;
     this.id_user = id_user;
     this.description = description;
@@ -21,6 +20,13 @@ export class UserStatusEntity extends BaseEntity {
     this.deletedAt = deletedAt;
     this.isActive = isActive;
   }
+
+  @Column({
+    type: 'bigint',
+    name: 'id_user_status',
+    generatedIdentity: 'ALWAYS',
+  })
+  id: number;
 
   @JoinColumn({
     name: 'id_user',
