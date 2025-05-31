@@ -1,5 +1,4 @@
-import { Column, Entity, JoinColumn } from 'typeorm';
-import { BaseEntity } from '@/domains/common/entities/base.entity';
+import { Column, Entity, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('user_status')
 export class UserStatusEntity {
@@ -21,10 +20,12 @@ export class UserStatusEntity {
     this.isActive = isActive;
   }
 
+  @PrimaryGeneratedColumn({ type: 'bigint', name: 'id_user_status' })
   @Column({
     type: 'bigint',
     name: 'id_user_status',
     generatedIdentity: 'ALWAYS',
+    primary: true,
   })
   id: number;
 
