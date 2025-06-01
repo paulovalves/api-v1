@@ -9,8 +9,8 @@ export class UserRoleEntity {
     this.description = description;
   }
 
-  @PrimaryGeneratedColumn({ type: 'bigint', name: 'id_user-role' })
-  @Column({ type: 'bigint', name: 'id_user_role', generatedIdentity: 'ALWAYS', primary: true })
+  @PrimaryGeneratedColumn({ type: 'bigint', name: 'id' })
+  @Column({ type: 'bigint', name: 'id', generatedIdentity: 'ALWAYS', primary: true })
   id: number;
 
   @Column({ type: 'varchar', name: 'name' })

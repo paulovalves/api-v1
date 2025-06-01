@@ -30,7 +30,7 @@ export class TypeormPostgresConfig {
       port: this.postgresConfigService.getPort(),
       username: this.postgresConfigService.getUsername(),
       password: this.postgresConfigService.getPassword(),
-      synchronize: true,
+      synchronize: false,
       database: this.postgresConfigService.getDatabase(),
       entities: [UserRoleEntity, UserEntity, UserStatusEntity],
       migrations: [migrationsPath],

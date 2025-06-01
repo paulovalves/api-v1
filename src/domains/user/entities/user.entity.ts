@@ -8,6 +8,7 @@ import {
 import { CreateUserDto } from '@/domains/user/dto/create-user.dto';
 import { UserRoleEntity, UserStatusEntity } from '@/domains/user/entities';
 import UserBuilder from '../builders/user.builder';
+import { converteData } from '@/utils/date.utils';
 
 /**
  * {@link UserEntity}
@@ -24,10 +25,10 @@ import UserBuilder from '../builders/user.builder';
 export class UserEntity {
   constructor() {}
 
-  @PrimaryGeneratedColumn({ type: 'bigint', name: 'id_user' })
+  @PrimaryGeneratedColumn({ type: 'bigint', name: 'id' })
   @Column({
     type: 'bigint',
-    name: 'id_user',
+    name: 'id',
     generatedIdentity: 'ALWAYS',
     primary: true,
   })
@@ -42,12 +43,15 @@ export class UserEntity {
   @Column({ type: 'varchar', name: 'password', length: 255 })
   password: string;
 
-  @ManyToOne(() => UserRoleEntity, { eager: true })
-  @JoinColumn({ name: 'id_role' })
+  @Column({ name: 'dob', nullable: false })
+  date_of_birth: Date;
+
+  @ManyToOne(() => UserRoleEntity)
+  @JoinColumn({ name: 'id_userrole' })
   role: UserRoleEntity;
 
-  @ManyToOne(() => UserStatusEntity, { eager: true })
-  @JoinColumn({ name: 'id_status' })
+  @ManyToOne(() => UserStatusEntity)
+  @JoinColumn({ name: 'id_current_status' })
   status: UserStatusEntity;
 
   /**
@@ -57,14 +61,18 @@ export class UserEntity {
    *
    */
   toUser(dto: CreateUserDto, status: UserStatusEntity) {
+    console.log("dto:", dto);
+    const parsed = converteData(dto.date_of_birth);
     if (dto.id) {
       this.id = dto.id;
     }
     this.name = dto.name;
     this.email = dto.email;
     this.password = dto.password;
-    this.role = dto.role;
+    this.date_of_birth = converteData(dto.date_of_birth);
+    this.role = UserRoleEntity.fromId(dto.role.id);
     this.status = status;
+    console.log("this", this);
   }
 
   toEntity(dto: CreateUserDto, status: UserStatusEntity) {
@@ -75,7 +83,8 @@ export class UserEntity {
         .name(dto.name)
         .email(dto.email)
         .password(dto.password)
-        .role(dto.role)
+        .dob(new Date(dto.date_of_birth))
+        .role(UserRoleEntity.fromId(dto.role.id))
         .status(status)
         .build();
 

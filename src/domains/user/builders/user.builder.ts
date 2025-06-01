@@ -31,6 +31,11 @@ export default class UserBuilder {
     return this;
   }
 
+  dob(value: Date): this {
+    this._user.date_of_birth = value;
+    return this;
+  }
+
   role(value: UserRoleEntity): this {
     this._user.role = value;
     return this;

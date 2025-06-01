@@ -35,6 +35,14 @@ export class CreateUserDto {
   password: string;
 
   @ApiProperty({
+    name: 'date_of_birth',
+    type: 'string',
+    nullable: false,
+    example: '1970-01-01T00:00:00Z',
+  })
+  date_of_birth: Date;
+
+  @ApiProperty({
     name: 'role',
     type: UserRoleEntity,
     nullable: false,

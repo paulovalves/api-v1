@@ -32,6 +32,14 @@ export class UserInputDto {
   password: string;
 
   @ApiProperty({
+    name: 'password',
+    type: 'string',
+    nullable: false,
+    example: new Date(),
+  })
+  date_of_birth: Date;
+
+  @ApiProperty({
     name: 'role',
     type: UserRoleEntity,
     nullable: false,

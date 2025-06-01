@@ -4,10 +4,10 @@ import { Column, Entity, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
 export class UserStatusEntity {
   constructor() {}
 
-  @PrimaryGeneratedColumn({ type: 'bigint', name: 'id_user_status' })
+  @PrimaryGeneratedColumn({ type: 'bigint', name: 'id' })
   @Column({
     type: 'bigint',
-    name: 'id_user_status',
+    name: 'id',
     generatedIdentity: 'ALWAYS',
     primary: true,
   })
@@ -16,7 +16,7 @@ export class UserStatusEntity {
   @JoinColumn({
     name: 'id_user',
     referencedColumnName: 'id',
-    foreignKeyConstraintName: 'FK_user_status_user',
+    foreignKeyConstraintName: 'FK_userstatus_user',
   })
   id_user: number;
 

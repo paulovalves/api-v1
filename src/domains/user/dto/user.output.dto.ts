@@ -3,11 +3,12 @@ import { UserRoleEntity } from '../entities/user-role.entity';
 import { UserEntity } from '../entities/user.entity';
 
 export class UserOutputDto {
-  constructor(id: number, name: string, email: string, role: UserRoleEntity) {
+  constructor(id: number, name: string, email: string, role: UserRoleEntity, status: string) {
     this.id = id;
     this.name = name;
     this.email = email;
     this.role = role;
+    this.status = status;
   }
 
   @ApiProperty({ name: 'id', type: Number })
@@ -31,12 +32,16 @@ export class UserOutputDto {
   })
   role: UserRoleEntity;
 
+  @ApiProperty({ name: 'status', type: String })
+  status: string;
+
   static toUserOutputDto(user: UserEntity): UserOutputDto {
     return new UserOutputDto(
       user.id,
       user.name,
       user.email,
       UserRoleEntity.fromId(user.role.id),
+      user.status ? "Active" : "Inactive"
     );
   }
 }

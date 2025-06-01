@@ -8,6 +8,7 @@ import {
   Delete,
   Res,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { UserService } from './user.service';
@@ -16,6 +17,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { BaseApiController } from '@/domains/common/base-api.controller';
 import { UserFilterEntity } from '@/domains/user/filters/user-filter.entity';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { PageOptionsDto } from '../common/pagination';
 
 /**
  * Controller for managing users.
@@ -72,6 +74,27 @@ export class UserController extends BaseApiController {
   }
 
   /**
+   * Retrieves paginated users.
+   * @param {Response} res - The response object.
+   *
+   * @returns {Promise<Response>} - A promise that resolves with a page of users.
+   */
+  @Get("page")
+  async listAll(@Query() query: PageOptionsDto, @Res() res: Response): Promise<Response> {
+    try {
+      const response = await this.userService.listAll(query);
+      return res
+      .status(HttpStatus.OK)
+      .json(response);
+    } catch(error) {
+      console.error("[UserController::listAll] ERROR", error);
+      return res
+      .status(HttpStatus.INTERNAL_SERVER_ERROR)
+      .json({ message: 'Erro ao buscar usuários', data: {} });
+    }
+  }
+
+  /**
    * Retrieves all users.
    * @param {Response} res - The response object.
    *
@@ -89,7 +112,7 @@ export class UserController extends BaseApiController {
       },
     },
   })
-  @Get('users')
+  @Get('list')
   async findAll(@Res() res: Response): Promise<Response> {
     try {
       const response = await this.userService.findAll();
@@ -112,18 +135,18 @@ export class UserController extends BaseApiController {
    * @returns {Promise<Response>} - A promise that resolves with the user data.
    */
   @ApiOperation({
-    summary: 'Buscar usuário por ID',
-    description: 'Retorna os dados de um usuário específico.',
+    summary: 'Buscar usuário por Filtro',
+    description: 'Retorna os dados de usuários filtrados (um ou mais)',
     responses: {
       200: {
         description: 'Usuário encontrado com sucesso',
       },
       500: {
-        description: 'Erro ao buscar usuário',
+        description: 'Erro ao buscar usuários',
       },
     },
   })
-  @Post('user')
+  @Post('find')
   async findOne(
     @Body() filter: UserFilterEntity,
     @Res() res: Response,
