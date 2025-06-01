@@ -13,7 +13,6 @@ export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    private readonly auditService: AuditService,
     private readonly userStatusService: UserStatusService
   ) {}
 
@@ -29,7 +28,7 @@ export class UserService {
       }
 
       const user = new UserEntity();
-      const status = await this.userStatusService.getOrCreateStatus();
+      const status = await this.userStatusService.create();
       user.toUser(createUserDto, status);
 
       const userCreated = await this.userRepository.save(user);
@@ -55,7 +54,7 @@ export class UserService {
       throw new RuntimeException(error);
     }
   }
-
+   
   async findOne(filter: UserFilterEntity): Promise<UserOutputDto> {
     try {
       const user = await this.userRepository.findOne({
@@ -98,8 +97,9 @@ export class UserService {
       }
 
       const user = new UserEntity();
-      let status = {
-        updatedAt: new Date(),
+      const status = {
+        ...user.status,
+        updated_at: new Date(),
       }
       
       const statusUpdated = await this.userStatusService.update(user.status.id, status);

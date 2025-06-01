@@ -3,6 +3,7 @@ import { UserStatusEntity } from '@/domains/user/entities';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { RuntimeException } from '@nestjs/core/errors/exceptions';
+import { UserStatusBuilder } from './builders/user-status.builder';
 
 @Injectable()
 export class UserStatusService {
@@ -29,14 +30,18 @@ export class UserStatusService {
 
   async create(): Promise<UserStatusEntity> {
     try {
-      let status = this.repository.create({
-        description: "User created",
-        createdAt: new Date(),
-        isActive: true
-      });
-      status = await this.repository.save(status);
+      let status = UserStatusBuilder
+        .builder()
+        .description("User created")
+        .created_at(new Date())
+        .is_active(true)
+        .build();
 
-      return status;
+      let created = this.repository.create(status);
+      created = await this.repository.save(created);
+
+      return created;
+
     } catch(error) {
       console.error("[UserStatusService::getOrCreateStatus]")
       console.error(error);
@@ -44,7 +49,7 @@ export class UserStatusService {
     }
   }
 
-  async update(id, status): Promise<UserStatusEntity> {
+  async update(id: number, status: UserStatusEntity): Promise<UserStatusEntity> {
     let exists = await this.repository.findOne({ where: { id }});
     if(!exists) {
       exists = await this.create();
@@ -53,14 +58,16 @@ export class UserStatusService {
     try {
       exists = {
         ...exists,
-        updatedAt: new Date()
+        ...status
       }
 
       let res = await this.repository.update(id, exists);
 
-      const result = { ...exists, updatedAt: res.raw };
+      const result = { ...exists, updated_at: res.raw };
 
       console.log("result: ", result);
+
+      return result;
 
     } catch(error) {
       console.error("[UserStatusService::update]")
@@ -78,8 +85,8 @@ export class UserStatusService {
     }
 
     try {
-      status.deletedAt = new Date();
-      status.isActive = false;
+      status.deleted_at = new Date();
+      status.is_active = false;
 
       await this.repository.update(status.id, status);
 
