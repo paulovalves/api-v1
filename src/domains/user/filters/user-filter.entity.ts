@@ -15,10 +15,10 @@ export class UserFilterEntity {
     this.email = entity.email;
     this.role = entity.role;
     if (status) {
-      this.createdAt = status.createdAt;
-      this.updatedAt = status.updatedAt;
-      this.deletedAt = status.deletedAt;
-      this.isActive = status.isActive;
+      this.created_at = status.created_at;
+      this.updated_at = status.updated_at;
+      this.deleted_at = status.deleted_at;
+      this.is_active = status.is_active;
     }
   }
 
@@ -43,28 +43,28 @@ export class UserFilterEntity {
   role?: UserRoleEntity | null;
 
   @ApiProperty({
-    name: 'createdAt',
+    name: 'created_at',
     format: 'YYYY-MM-DD HH:mm:ss',
     example: '',
   })
-  createdAt: Date | null = null;
+  created_at: Date | null = null;
 
   @ApiProperty({
-    name: 'updatedAt',
+    name: 'updated_at',
     format: 'YYYY-MM-DD HH:mm:ss',
     example: '',
   })
-  updatedAt: Date | null = null;
+  updated_at: Date | null = null;
 
   @ApiProperty({
-    name: 'deletedAt',
+    name: 'deleted_at',
     format: 'YYYY-MM-DD HH:mm:ss',
     example: '',
   })
-  deletedAt: Date | null = null;
+  deleted_at: Date | null = null;
 
-  @ApiProperty({ name: 'isActive', type: 'boolean' })
-  isActive: boolean | null;
+  @ApiProperty({ name: 'is_active', type: 'boolean' })
+  is_active: boolean | null;
 
   @ApiProperty({ name: 'documento', type: 'string' })
   documento: string | null;
@@ -76,10 +76,10 @@ export class UserFilterEntity {
     if (filter.name) where.name = filter.name;
     if (filter.email) where.email = filter.email;
     if (filter.role) where.role = { id: filter.role.id };
-    if (filter.createdAt) where.status = { createdAt: filter.createdAt };
-    if (filter.updatedAt) where.status = { updatedAt: filter.updatedAt };
-    if (filter.deletedAt) where.status = { deletedAt: filter.deletedAt };
-    if (filter.isActive) where.status = { isActive: filter.isActive };
+    if (filter.created_at) where.status = { created_at: filter.created_at };
+    if (filter.updated_at) where.status = { updated_at: filter.updated_at };
+    if (filter.deleted_at) where.status = { deleted_at: filter.deleted_at };
+    if (filter.is_active) where.status = { is_active: filter.is_active };
 
     return where;
   }

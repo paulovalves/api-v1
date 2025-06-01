@@ -1,5 +1,5 @@
-import { Column, Entity, OneToMany } from 'typeorm';
-import { UserEntity } from '@/domains/user/entities/user.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { UserEntity } from '@/domains/user/entities';
 
 @Entity('user_role')
 export class UserRoleEntity {
@@ -9,7 +9,8 @@ export class UserRoleEntity {
     this.description = description;
   }
 
-  @Column({ type: 'bigint', name: 'id_user_role', generatedIdentity: 'ALWAYS' })
+  @PrimaryGeneratedColumn({ type: 'bigint', name: 'id_user-role' })
+  @Column({ type: 'bigint', name: 'id_user_role', generatedIdentity: 'ALWAYS', primary: true })
   id: number;
 
   @Column({ type: 'varchar', name: 'name' })

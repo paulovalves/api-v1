@@ -1,13 +1,18 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { UserRoleEntity } from '@/domains/user/entities/user-role.entity';
-import { UserStatusEntity } from '@/domains/user/entities/user-status.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { CreateUserDto } from '@/domains/user/dto/create-user.dto';
+import { UserRoleEntity, UserStatusEntity } from '@/domains/user/entities';
+import UserBuilder from '../builders/user.builder';
 
 /**
- * UserEntity
+ * {@link UserEntity}
  *
  * @description Entidade que representa um usuário do sistema.
- * @extends BaseEntity
  * @property {string} name - Nome do usuário.
  * @property {string} email - E-mail do usuário.
  * @property {string} password - Senha do usuário.
@@ -19,7 +24,13 @@ import { CreateUserDto } from '@/domains/user/dto/create-user.dto';
 export class UserEntity {
   constructor() {}
 
-  @Column({ type: 'bigint', name: 'id_user', generatedIdentity: 'ALWAYS' })
+  @PrimaryGeneratedColumn({ type: 'bigint', name: 'id_user' })
+  @Column({
+    type: 'bigint',
+    name: 'id_user',
+    generatedIdentity: 'ALWAYS',
+    primary: true,
+  })
   id: number;
 
   @Column({ type: 'varchar', name: 'name', unique: true, length: 255 })
@@ -45,7 +56,7 @@ export class UserEntity {
    * @param { CreateUserDto } dto - Objeto DTO a ser convertido.
    *
    */
-  toUser(dto: CreateUserDto) {
+  toUser(dto: CreateUserDto, status: UserStatusEntity) {
     if (dto.id) {
       this.id = dto.id;
     }
@@ -53,5 +64,21 @@ export class UserEntity {
     this.email = dto.email;
     this.password = dto.password;
     this.role = dto.role;
+    this.status = status;
+  }
+
+  toEntity(dto: CreateUserDto, status: UserStatusEntity) {
+    const user = UserBuilder;
+      if(dto.id) user.builder().id(dto.id);
+         
+      user.builder()
+        .name(dto.name)
+        .email(dto.email)
+        .password(dto.password)
+        .role(dto.role)
+        .status(status)
+        .build();
+
+        return user;
   }
 }

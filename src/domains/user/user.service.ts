@@ -1,20 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from '../user/dto/create-user.dto';
-import { UpdateUserDto } from '../user/dto/update-user.dto';
-import { UserOutputDto } from '../user/dto/user.output.dto';
-import { UserEntity } from '../user/entities/user.entity';
+import { CreateUserDto, UpdateUserDto, UserOutputDto } from '@/domains/user/dto';
+import { UserEntity } from '@/domains/user/entities';
 import { RuntimeException } from '@nestjs/core/errors/exceptions';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserFilterEntity } from '../user/filters/user-filter.entity';
 import { AuditService } from '@/common/audit/audit-log.service';
+import { UserStatusService } from './user-status.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    private readonly auditService: AuditService,
+    private readonly userStatusService: UserStatusService
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<UserOutputDto> {
@@ -23,10 +22,15 @@ export class UserService {
         where: { email: createUserDto.email },
       });
       if (exists) {
-        throw new RuntimeException(`Usuário com o email [${createUserDto.email}] já existe!`);
+        throw new RuntimeException(
+          `Usuário com o email [${createUserDto.email}] já existe!`,
+        );
       }
+
       const user = new UserEntity();
-      user.toUser(createUserDto);
+      const status = await this.userStatusService.create();
+      user.toUser(createUserDto, status);
+
       const userCreated = await this.userRepository.save(user);
 
       const userOutput = UserOutputDto.toUserOutputDto(userCreated);
@@ -50,7 +54,7 @@ export class UserService {
       throw new RuntimeException(error);
     }
   }
-
+   
   async findOne(filter: UserFilterEntity): Promise<UserOutputDto> {
     try {
       const user = await this.userRepository.findOne({
@@ -93,7 +97,14 @@ export class UserService {
       }
 
       const user = new UserEntity();
-      user.toUser(UpdateUserDto.toUpdateDto(exists));
+      const status = {
+        ...user.status,
+        updated_at: new Date(),
+      }
+      
+      const statusUpdated = await this.userStatusService.update(user.status.id, status);
+
+      user.toUser(UpdateUserDto.toUpdateDto(exists), statusUpdated);
       const userUpdated = await this.userRepository.save(user);
       const userOutput = UserOutputDto.toUserOutputDto(userUpdated);
       if (!userUpdated) {

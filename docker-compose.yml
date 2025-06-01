@@ -6,9 +6,9 @@ services:
     container_name: postgres
     hostname: postgres
     environment:
-      POSTGRES_DB: ${POSTGRES_LOCALHOST_DATABASE}
-      POSTGRES_USER: ${POSTGRES_LOCALHOST_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_LOCALHOST_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     networks:
       - appnet
     ports:
@@ -46,9 +46,9 @@ services:
       PORT: ${DEFAULT_PORT}
       DB_HOST: postgres
       DB_PORT: 5432
-      DB_USER: ${POSTGRES_LOCALHOST_USER}
-      DB_PASSWORD: ${POSTGRES_LOCALHOST_PASSWORD}
-      DB_NAME: ${POSTGRES_LOCALHOST_DATABASE}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DATABASE}
     networks:
       appnet:
         aliases:
